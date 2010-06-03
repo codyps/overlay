@@ -1,0 +1,3 @@
+* Adding with layman:
+
+  layman -f -a jmesmon -o http://github.com/downloads/jmesmon/gentoo-overlay/overlays.xml
