@@ -1,16 +1,12 @@
 <?xml version="1.0" ?>
 <layman>
-  <overlay
-      contact = "jmesmon@gmail.com"
-      type = "git"
-      src  = "git://github.com/jmesmon/gentoo-overlay.git"
-      name = "jmesmon">
-    <link>
-	    http://github.com/jmesmon/gentoo-overlay
-    </link>
-    <description>
-    	Some ebuilds I wanted.
-    </description>
-  </overlay>
+	<overlay
+		contact = "jmesmon@gmail.com"
+		type = "git"
+		src  = "git://github.com/jmesmon/gentoo-overlay.git"
+		name = "jmesmon">
+	<link>http://github.com/jmesmon/gentoo-overlay</link>
+	<description>Some ebuilds I wanted.</description>
+	</overlay>
 </layman>
 
