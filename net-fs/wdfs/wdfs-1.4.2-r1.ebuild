@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-RDEPEND=">=net-misc/neon-0.24.7
+RDEPEND=">=net-libs/neon-0.24.7
 	 >=sys-fs/fuse-2.5"
 DEPEND="${RDEPEND}"
 
