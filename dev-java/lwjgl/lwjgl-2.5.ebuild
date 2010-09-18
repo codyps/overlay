@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI="2"
+
 # uses the javah task
 WANT_ANT_TASKS="ant-nodeps"
 JAVA_PKG_IUSE="devil doc source"
@@ -44,10 +46,7 @@ RDEPEND=">=virtual/jre-1.5
 
 S="${WORKDIR}"
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
-	#eant clean clean-generated
+java_prepare() {
 	mkdir bin
 	java-ant_rewrite-classpath build.xml
 }
