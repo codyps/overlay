@@ -1,18 +1,33 @@
-diff -dru dante-1.1.19/lib/clientprotocol.c dante-1.1.19.patch//lib/clientprotocol.c
---- dante-1.1.19/lib/clientprotocol.c	2005-12-29 06:17:24.000000000 -0500
-+++ dante-1.1.19.patch//lib/clientprotocol.c	2010-10-30 14:50:27.272395025 -0400
-@@ -160,10 +160,9 @@
+diff -dura ./lib/clientprotocol.c ../dante-1.1.19/lib/clientprotocol.c
+--- ./lib/clientprotocol.c	2010-10-30 15:15:27.306395005 -0400
++++ ../dante-1.1.19/lib/clientprotocol.c	2005-12-29 06:17:24.000000000 -0500
+@@ -160,10 +160,10 @@
  								 + sizeof(response->reply)
  								 ];
  			char *p = responsemem;
--
--			if (readn(s, responsemem, sizeof(responsemem), response->auth)
--			!= sizeof(responsemem)) {
--				swarn("%s: readn()", function);
-+			int i = readn(s, responsemem, sizeof(responsemem), response->auth);
-+			if (i != sizeof(responsemem)) {
-+				swarn("%s: readn() %d", function, i);
+-			int i = readn(s, responsemem, sizeof(responsemem),
+-					response->auth);
+-			if (i != sizeof(responsemem)) {
+-				swarn("%s: readn() %d", function, i);
++
++			if (readn(s, responsemem, sizeof(responsemem), response->auth)
++			!= sizeof(responsemem)) {
++				swarn("%s: readn()", function);
  				return -1;
  			}
  
-Only in dante-1.1.19.patch//lib: clientprotocol.c~
+@@ -200,10 +200,10 @@
+ 								+ sizeof(response->flag)
+ 								];
+ 			char *p = responsemem;
+-			int i = readn(s, responsemem, sizeof(responsemem),
+-					response->auth);
+-			if ( i != sizeof(responsemem)) {
+-				swarn("%s: readn() %d", function, i);
++
++			if (readn(s, responsemem, sizeof(responsemem), response->auth)
++			!= sizeof(responsemem)) {
++				swarn("%s: readn()", function);
+ 				return -1;
+ 			}
+ 
