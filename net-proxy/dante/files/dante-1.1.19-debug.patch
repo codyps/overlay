@@ -31,3 +31,4 @@ diff -dura ./lib/clientprotocol.c ../dante-1.1.19/lib/clientprotocol.c
  				return -1;
  			}
  
+Only in ./lib: clientprotocol.c~
