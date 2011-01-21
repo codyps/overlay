@@ -1,0 +1,39 @@
+# ChangeLog for dev-embedded/srecord
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/dev-embedded/srecord/ChangeLog,v 1.9 2009/07/25 19:21:34 ssuominen Exp $
+
+  25 Jul 2009; Samuli Suominen <ssuominen@gentoo.org> srecord-1.42.ebuild,
+  +files/srecord-1.42-gcc44.patch:
+  Fix building with GCC 4.4 wrt #276691.
+
+*srecord-1.42 (17 Jun 2008)
+
+  17 Jun 2008; Denis Dupeyron <calchan@gentoo.org> +srecord-1.42.ebuild:
+  Version bump.
+
+  17 Jun 2008; Denis Dupeyron <calchan@gentoo.org> srecord-1.40.ebuild:
+  Added dev-libs/boost to DEPEND, fixed RDEPEND (bug #227505).
+
+  17 Jun 2008; Denis Dupeyron <calchan@gentoo.org> -srecord-1.29.ebuild:
+  Removed old ebuild.
+
+*srecord-1.40 (28 Apr 2008)
+
+  28 Apr 2008; Denis Dupeyron <calchan@gentoo.org> +srecord-1.40.ebuild:
+  Version bump with gcc-4.3 support, thanks to Peter Alfredsen (bug
+  #219547).
+
+  30 Mar 2007; Denis Dupeyron <calchan@gentoo.org> srecord-1.29.ebuild:
+  Successfully tested on sparc.
+
+  28 Mar 2007; Denis Dupeyron <calchan@gentoo.org> srecord-1.29.ebuild:
+  Added test to IUSE, thanks to Jakub Moc (bug #172536).
+
+  27 Mar 2007; Denis Dupeyron <calchan@gentoo.org> srecord-1.29.ebuild:
+  Successfully tested on amd64.
+
+*srecord-1.29 (26 Mar 2007)
+
+  26 Mar 2007; Denis Dupeyron <calchan@gentoo.org> +srecord-1.29.ebuild:
+  Initial commit, bug #126372.
+
