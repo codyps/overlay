@@ -4,21 +4,33 @@
 
 EAPI="2"
 
-inherit eutils flag-o-matic toolchain-funcs linux-info
+if [[ ${PV} = *9999* ]]; then
+	EGIT_REPO_URI="git://git.qemu.org/qemu.git"
+	GIT_ECLASS="git"
+fi
+
+inherit eutils flag-o-matic ${GIT_ECLASS} toolchain-funcs
+
+if [[ ${PV} = *9999* ]]; then
+	SRC_URI=""
+	KEYWORDS=""
+else
+	SRC_URI="http://download.savannah.gnu.org/releases/qemu/${P}.tar.gz"
+	KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+fi
 
 DESCRIPTION="QEMU emulator and ABI wrapper"
 HOMEPAGE="http://www.qemu.org"
-SRC_URI="http://download.savannah.gnu.org/releases/qemu/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+# xen is disabled until the deps are fixed
 IUSE="+aio alsa bluetooth brltty curl esd fdt hardened jpeg ncurses \
 png pulseaudio qemu-ifup sasl sdl ssl static vde"
 
 COMMON_TARGETS="i386 x86_64 arm cris m68k microblaze mips mipsel ppc ppc64 sh4 sh4eb sparc sparc64"
 IUSE_SOFTMMU_TARGETS="${COMMON_TARGETS} mips64 mips64el ppcemb"
-IUSE_USER_TARGETS="${COMMON_TARGETS} alpha armeb ppc64abi32 sparc32plus"  
+IUSE_USER_TARGETS="${COMMON_TARGETS} alpha armeb ppc64abi32 sparc32plus"
 
 for target in ${IUSE_SOFTMMU_TARGETS}; do
 	IUSE="${IUSE} +qemu_softmmu_targets_${target}"
@@ -31,9 +43,10 @@ done
 RESTRICT="test"
 
 RDEPEND="
+	!app-emulation/qemu-kvm
 	!app-emulation/qemu-softmmu
 	!app-emulation/qemu-user
-	!<app-emulation/qemu-0.10.3
+	!app-emulation/qemu-kvm-spice
 	sys-apps/pciutils
 	>=sys-apps/util-linux-2.16.0
 	sys-libs/zlib
@@ -44,7 +57,7 @@ RDEPEND="
 	curl? ( net-misc/curl )
 	esd? ( media-sound/esound )
 	fdt? ( >=sys-apps/dtc-1.2.0 )
-	jpeg? ( media-libs/jpeg )
+	jpeg? ( virtual/jpeg )
 	ncurses? ( sys-libs/ncurses )
 	png? ( media-libs/libpng )
 	pulseaudio? ( media-sound/pulseaudio )
@@ -85,7 +98,6 @@ src_prepare() {
 	# to the qemu-devel ml - bug 337988
 	epatch "${FILESDIR}/${PN}-0.11.0-mips64-user-fix.patch" \
 		"${FILESDIR}/${PN}-0.12.3-include-madvise-defines.patch"
-#		"${FILESDIR}/${PN}-guest-hang-on-usb-add.patch"
 }
 
 src_configure() {
@@ -137,6 +149,7 @@ src_configure() {
 	conf_opts="${conf_opts} $(use_enable sdl)"
 	conf_opts="${conf_opts} $(use_enable ssl vnc-tls)"
 	conf_opts="${conf_opts} $(use_enable vde)"
+	conf_opts="${conf_opts} --disable-xen"
 	conf_opts="${conf_opts} --disable-darwin-user --disable-bsd-user"
 
 	# audio options
@@ -150,7 +163,6 @@ src_configure() {
 		--disable-strip \
 		--disable-werror \
 		--disable-kvm \
-		--disable-xen \
 		--enable-nptl \
 		--enable-uuid \
 		${conf_opts} \
@@ -167,21 +179,15 @@ src_configure() {
 		# --enable-io-thread \
 }
 
-src_compile() {
-	# Restricting parallel build until we get a patch to fix this
-	emake -j1 || die
-}
-
 src_install() {
 	emake DESTDIR="${D}" install || die "make install failed"
 
-	if use qemu-ifup; then
-		insinto /etc/qemu/
-		insopts -m0755
-		doins \
+	if use qemu-ifup && [ -n "${softmmu_targets}" ]; then
+		exeinto /etc/qemu/
+		doexe \
 			"${FILESDIR}/qemu-ifup" \
 			"${FILESDIR}/qemu-ifdown" \
-			|| die
+			|| die "qemu interface scripts missing"
 	fi
 
 	dodoc Changelog MAINTAINERS TODO pci-ids.txt || die
@@ -190,10 +196,12 @@ src_install() {
 }
 
 pkg_postinst() {
-	elog "You will need the Universal TUN/TAP driver compiled into your"
-	elog "kernel or loaded as a module to use the virtual network device"
-	elog "if using -net tap.  You will also need support for 802.1d"
-	elog "Ethernet Bridging and a configured bridge if using the provided"
-	elog "qemu-ifup script from /etc/qemu."
-	echo
+	if use qemu-ifup; then
+		elog "You will need the Universal TUN/TAP driver compiled into your"
+		elog "kernel or loaded as a module to use the virtual network device"
+		elog "if using -net tap.  You will also need support for 802.1d"
+		elog "Ethernet Bridging and a configured bridge if using the provided"
+		elog "qemu-ifup script from /etc/qemu."
+		echo
+	fi
 }
