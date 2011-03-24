@@ -18,6 +18,9 @@ IUSE="+tordns +envconf -socksdns -hostnames"
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	eautoreconf
+}
 
 src_configure() {
 	econf \
