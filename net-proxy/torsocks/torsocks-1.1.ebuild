@@ -4,6 +4,9 @@
 
 EAPI=3
 
+
+inherit multilib eutils autotools
+
 DESCRIPTION="allows you to use most socks-friendly applications in a safe way
 with Tor. It ensures that DNS requests are handled safely and explicitly rejects
 UDP traffic from the application you're using."
@@ -24,7 +27,7 @@ src_prepare() {
 
 src_configure() {
 	econf \
-		--libdir=${EPREFIX}/$(get_libdir)
+		--libdir=${EPREFIX}/$(get_libdir) \
 		$(use_enable tordns) \
 		$(use_enable socksdns) \
 		$(use_enable envconf) \
