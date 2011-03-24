@@ -8,7 +8,7 @@ DESCRIPTION="allows you to use most socks-friendly applications in a safe way
 with Tor. It ensures that DNS requests are handled safely and explicitly rejects
 UDP traffic from the application you're using."
 HOMEPAGE="http://code.google.com/p/torsocks/"
-SRC_URI="http://torsocks.google.com/files/${P}.tar.gz"
+SRC_URI="http://torsocks.googlecode.com/files/${P}.tar.gz"
 
 LICENSE="GPLv2"
 SLOT="0"
