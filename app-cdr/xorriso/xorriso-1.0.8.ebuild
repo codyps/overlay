@@ -11,7 +11,7 @@ LICENSE="GPL-3"
 SLOT="0"
 
 # Others might be supported, but I am not 100% sure, so I am omitting them.
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 
 IUSE="acl bzip2 readline zlib"
 DEPEND="acl? ( virtual/acl )
