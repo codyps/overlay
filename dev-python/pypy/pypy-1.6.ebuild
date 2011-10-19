@@ -27,7 +27,7 @@ RDEPEND=">=sys-libs/zlib-1.1.3
 DEPEND="${RDEPEND}"
 PDEPEND="app-admin/python-updater"
 
-S="${WORKDIR}/${P}-src"
+S="${WORKDIR}/${PN}-${PN}-release-${PV}"
 DOC="README LICENSE"
 
 CHECKREQS_MEMORY="1250M"
