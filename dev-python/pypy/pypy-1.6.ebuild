@@ -30,11 +30,8 @@ PDEPEND="app-admin/python-updater"
 S="${WORKDIR}/${P}-src"
 DOC="README LICENSE"
 
-src_prepare() {
-	CHECKREQS_MEMORY="1250"
-	use amd64 && CHECKREQS_MEMORY="2500"
-	check_reqs
-}
+CHECKREQS_MEMORY="1250"
+use amd64 && CHECKREQS_MEMORY="2500"
 
 src_compile() {
 	if use jit; then
