@@ -1,3 +1,5 @@
 #God damn broken build system.
 =dev-embedded/srecord-1.56
 
+sys-devel/gcc::jmesmon
+
