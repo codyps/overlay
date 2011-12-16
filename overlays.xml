@@ -3,19 +3,10 @@
 	<overlay
 		contact = "jmesmon@gmail.com"
 		type = "git"
-		src  = "git://github.com/jmesmon/gentoo-overlay.git"
+		src  = "git://github.com/jmesmon/jmesmon-overlay.git"
 		name = "jmesmon">
 		<link>http://github.com/jmesmon/gentoo-overlay</link>
 		<description>Some ebuilds I wanted.</description>
-	</overlay>
-
-	<overlay
-		contact = "soeren.hoeckner@gmx.de"
-		type = "mercurial"
-		src  = "http://hg.datenhabitat.de/overlay-sho/"
-		name = "sho">
-		<link>http://hg.datenhabitat.de/overlay-sho/</link>
-		<description>MSP430 dev stuff</description>
 	</overlay>
 </layman>
 
