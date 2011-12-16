@@ -5,7 +5,7 @@
 		type = "git"
 		src  = "git://github.com/jmesmon/jmesmon-overlay.git"
 		name = "jmesmon">
-		<link>http://github.com/jmesmon/gentoo-overlay</link>
+		<link>http://github.com/jmesmon/jmesmon-overlay</link>
 		<description>Some ebuilds I wanted.</description>
 	</overlay>
 </layman>
