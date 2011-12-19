@@ -64,11 +64,15 @@ src_compile() {
 	local py_cmd
 	if use pypy; then
 		for i in ${EPREFIX}/usr/bin/pypy-*; do
-			py_cmd=$i;
+			if [ -x "$py_cmd" ]; then
+				py_cmd=$i;
+			fi
 		done
 	fi
 
 	if [ -z "$py_cmd" ]; then
+		use pypy && ewarn "Could not locate pypy even though the pypy use flag
+		was passed, falling back on system python2"
 		py_cmd="$(PYTHON -2)"
 	fi
 
