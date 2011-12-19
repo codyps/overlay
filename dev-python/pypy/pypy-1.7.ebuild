@@ -64,7 +64,7 @@ src_compile() {
 	local py_cmd
 	if use pypy; then
 		for i in ${EPREFIX}/usr/bin/pypy-*; do
-			if [ -x "$py_cmd" ]; then
+			if [ -x "$i" ]; then
 				py_cmd=$i;
 			fi
 		done
