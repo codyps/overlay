@@ -30,8 +30,7 @@ PDEPEND="app-admin/python-updater"
 S="${WORKDIR}/${PN}-pypy-release-${PV}"
 DOC="README LICENSE"
 
-CHECKREQS_MEMORY="1250M"
-use amd64 && CHECKREQS_MEMORY="2500M"
+CHECKREQS_MEMORY="2500M"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PV}-patches.patch"
@@ -77,9 +76,11 @@ src_compile() {
 	fi
 
 	if ! [ -z "$CHECKREQS_FAILED" ]; then
-		case $py_cmd
+		case $py_cmd in
 		*pypy*)
 			py_cmd="PYPY_GC_MAX_DELTA=200MB '${py_cmd}' --jit loop_longevity=300"
+			;;
+		*)
 			;;
 		esac
 	fi
