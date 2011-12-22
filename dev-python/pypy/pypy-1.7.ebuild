@@ -78,7 +78,7 @@ src_compile() {
 	if ! [ -z "$CHECKREQS_FAILED" ]; then
 		case $py_cmd in
 		*pypy*)
-			py_cmd="PYPY_GC_MAX_DELTA=200MB '${py_cmd}' --jit loop_longevity=300"
+			py_cmd="env PYPY_GC_MAX_DELTA=200MB '${py_cmd}' --jit loop_longevity=300"
 			;;
 		*)
 			;;
