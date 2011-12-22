@@ -64,7 +64,7 @@ src_compile() {
 	if use pypy; then
 		for i in ${EPREFIX}/usr/bin/pypy-*; do
 			if [ -x "$i" ]; then
-				py_cmd=$i;
+				py_cmd="$i";
 			fi
 		done
 	fi
@@ -78,7 +78,7 @@ src_compile() {
 	if ! [ -z "$CHECKREQS_FAILED" ]; then
 		case $py_cmd in
 		*pypy*)
-			py_cmd="env PYPY_GC_MAX_DELTA=200MB '${py_cmd}' --jit loop_longevity=300"
+			py_cmd="env PYPY_GC_MAX_DELTA=200MB ${py_cmd} --jit loop_longevity=300"
 			;;
 		*)
 			;;
