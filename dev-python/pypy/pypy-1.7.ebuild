@@ -76,6 +76,14 @@ src_compile() {
 		py_cmd="$(PYTHON -2)"
 	fi
 
+	if ! [ -z "$CHECKREQS_FAILED" ]; then
+		case $py_cmd
+		*pypy*)
+			py_cmd="PYPY_GC_MAX_DELTA=200MB '${py_cmd}' --jit loop_longevity=300"
+			;;
+		esac
+	fi
+
 	translate_cmd="${py_cmd} ./pypy/translator/goal/translate.py $conf"
 	echo ${_BOLD}"${translate_cmd}"${_NORMAL}
 	${translate_cmd} || die "compile error"
