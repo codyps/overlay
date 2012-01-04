@@ -30,8 +30,7 @@ PDEPEND="app-admin/python-updater"
 S="${WORKDIR}/${PN}-pypy-release-${PV}"
 DOC="README LICENSE"
 
-CHECKREQS_MEMORY="1250M"
-use amd64 && CHECKREQS_MEMORY="2500M"
+CHECKREQS_MEMORY="2500M"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PV}-patches.patch"
@@ -65,7 +64,7 @@ src_compile() {
 	if use pypy; then
 		for i in ${EPREFIX}/usr/bin/pypy-*; do
 			if [ -x "$i" ]; then
-				py_cmd=$i;
+				py_cmd="$i";
 			fi
 		done
 	fi
@@ -74,6 +73,16 @@ src_compile() {
 		use pypy && ewarn "Could not locate pypy even though the pypy use flag
 		was passed, falling back on system python2"
 		py_cmd="$(PYTHON -2)"
+	fi
+
+	if ! [ -z "$CHECKREQS_FAILED" ]; then
+		case $py_cmd in
+		*pypy*)
+			py_cmd="env PYPY_GC_MAX_DELTA=200MB ${py_cmd} --jit loop_longevity=300"
+			;;
+		*)
+			;;
+		esac
 	fi
 
 	translate_cmd="${py_cmd} ./pypy/translator/goal/translate.py $conf"
