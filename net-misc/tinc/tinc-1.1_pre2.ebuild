@@ -8,15 +8,14 @@ inherit eutils
 
 DESCRIPTION="tinc is an easy to configure VPN implementation"
 HOMEPAGE="http://www.tinc-vpn.org/"
-SRC_URI="http://www.tinc-vpn.org/packages/${P}.tar.gz"
+SRC_URI="http://www.tinc-vpn.org/packages/${P/_/}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~ppc ~sparc ~x86 ~x86-linux ~ppc-macos ~x86-macos"
-IUSE="+lzo +zlib raw uml tunemu"
+IUSE="+lzo +zlib raw uml tunemu gcrypt vde"
 
-DEPEND="
-	dev-libs/libevent
+DEPEND="dev-libs/libevent
 	sys-libs/ncurses
 	!gcrypt? ( >=dev-libs/openssl-0.9.7c )
 	 gcrypt? ( dev-libs/libgcrypt )
