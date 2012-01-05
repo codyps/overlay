@@ -6,9 +6,13 @@ EAPI="4"
 
 inherit eutils
 
+MY_P=${P/_/}
+
 DESCRIPTION="tinc is an easy to configure VPN implementation"
 HOMEPAGE="http://www.tinc-vpn.org/"
-SRC_URI="http://www.tinc-vpn.org/packages/${P/_/}.tar.gz"
+SRC_URI="http://www.tinc-vpn.org/packages/${MY_P}.tar.gz"
+
+S="${WORKDIR}/${MY_P}"
 
 LICENSE="GPL-2"
 SLOT="0"
