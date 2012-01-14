@@ -66,10 +66,17 @@ src_prepare() {
 }
 
 src_configure() {
+
+	if use tunemu; then
+		# passing --disable-tunemu causes it to be enabled as well.
+		myconf="--enable-tunemu"
+	fi
+
 	econf  --enable-jumbograms \
 		$(use_enable lzo)      \
 		$(use_enable zlib)     \
-		$(use_enable tunemu)
+		${myconf}
+
 	use raw && cd "${S}"/src && ln -sf raw_socket/device.c
 	use uml && cd "${S}"/src && ln -sf uml_socket/device.c
 	use vde && cd "${S}"/src && ln -sf vde/device.c
