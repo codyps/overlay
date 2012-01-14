@@ -43,36 +43,14 @@ if [[ ${PV} != *9999* ]]; then
 	S="${WORKDIR}/${MY_P}"
 fi
 
-src_prepare() {
-	local COUNT=0
-	use raw && COUNT=$(($COUNT+1))
-	use uml && COUNT=$(($COUNT+1))
-	use vde && COUNT=$(($COUNT+1))
-
-	if [[ ${COUNT} -gt 1 ]]; then
-		eerror
-		eerror "\033[1;31m**************************************************\033[1;31m"
-		eerror
-		eerror "\033[1;31m If you selected either raw, uml, or vde\033[1;31m"
-		eerror "\033[1;31m you can select only one.\033[1;31m"
-		eerror
-		eerror "\033[1;31m**************************************************\033[1;31m"
-		eerror
-		die
-	fi
-
-	epatch "${FILESDIR}"/fix-missing-vde.patch
-	epatch "${FILESDIR}"/fix-compile-vde-uml.patch
-}
-
 src_configure() {
 	econf  --enable-jumbograms \
 		$(use_enable lzo)      \
 		$(use_enable zlib)     \
-		$(use_enable tunemu)
-	use raw && cd "${S}"/src && ln -sf raw_socket/device.c
-	use uml && cd "${S}"/src && ln -sf uml_socket/device.c
-	use vde && cd "${S}"/src && ln -sf vde/device.c
+		$(use_enable tunemu)	\
+		$(use_enable raw)	\
+		$(use_enable uml)	\
+		$(use_enable vde)
 }
 
 src_install() {
