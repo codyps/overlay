@@ -49,13 +49,18 @@ src_configure() {
 		eautoreconf
 	fi
 
+	if use tunemu; then
+		# passing --disable-tunemu causes it to be enabled as well.
+		myconf="--enable-tunemu"
+	fi
+
 	econf  --enable-jumbograms \
 		$(use_enable lzo)      \
 		$(use_enable zlib)     \
-		$(use_enable tunemu)	\
 		$(use_enable raw)	\
 		$(use_enable uml)	\
-		$(use_enable vde)
+		$(use_enable vde)	\
+		${myconf}
 }
 
 src_install() {
