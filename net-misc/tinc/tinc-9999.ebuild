@@ -43,17 +43,17 @@ if [[ ${PV} != *9999* ]]; then
 	S="${WORKDIR}/${MY_P}"
 fi
 
-src_configure() {
-
+src_unpack() {
 	if [[ ${PV} = *9999* ]]; then
 		eautoreconf
 	fi
+}
 
+src_configure() {
 	if use tunemu; then
 		# passing --disable-tunemu causes it to be enabled as well.
 		myconf="--enable-tunemu"
 	fi
-
 	econf  --enable-jumbograms \
 		$(use_enable lzo)      \
 		$(use_enable zlib)     \
