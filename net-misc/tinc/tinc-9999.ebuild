@@ -43,7 +43,7 @@ if [[ ${PV} != *9999* ]]; then
 	S="${WORKDIR}/${MY_P}"
 fi
 
-src_unpack() {
+src_prepare() {
 	if [[ ${PV} = *9999* ]]; then
 		eautoreconf
 	fi
