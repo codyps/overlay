@@ -4,9 +4,9 @@
 
 EAPI="4"
 
-[[ ${PV} = *9999* ]] && VCS_ECLASS="git-2" || VCS_ECLASS=""
+[[ ${PV} = *9999* ]] && EXTRA_ECLASS="git-2 autotools" || EXTRA_ECLASS=""
 
-inherit eutils ${VCS_ECLASS}
+inherit eutils ${EXTRA_ECLASS} 
 
 MY_P=${P/_/}
 
