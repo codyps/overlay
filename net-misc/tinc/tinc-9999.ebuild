@@ -44,6 +44,11 @@ if [[ ${PV} != *9999* ]]; then
 fi
 
 src_configure() {
+
+	if [[ ${PV} = *9999* ]]; then
+		eautoreconf
+	fi
+
 	econf  --enable-jumbograms \
 		$(use_enable lzo)      \
 		$(use_enable zlib)     \
