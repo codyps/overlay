@@ -15,7 +15,7 @@ LICENSE="MIT"
 SLOT="${SLOTVER}"
 PYTHON_ABI="2.7-pypy-${SLOTVER}"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc examples +jit sandbox test bzip2 ncurses xml ssl pypy"
+IUSE="doc examples +jit sandbox test bzip2 ncurses xml ssl pypy buildlowmem"
 
 RDEPEND=">=sys-libs/zlib-1.1.3
 		virtual/libffi
@@ -31,6 +31,7 @@ S="${WORKDIR}/${PN}-pypy-release-${PV}"
 DOC="README LICENSE"
 
 CHECKREQS_MEMORY="2500M"
+use amd64 && CHECKREQS_MEMORY="3000M"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PV}-patches.patch"
@@ -75,7 +76,7 @@ src_compile() {
 		py_cmd="$(PYTHON -2)"
 	fi
 
-	if ! [ -z "$CHECKREQS_FAILED" ]; then
+	if ( ! [ -z "$CHECKREQS_FAILED" ] ) || use buildlowmem; then
 		case $py_cmd in
 		*pypy*)
 			py_cmd="env PYPY_GC_MAX_DELTA=200MB ${py_cmd} --jit loop_longevity=300"
