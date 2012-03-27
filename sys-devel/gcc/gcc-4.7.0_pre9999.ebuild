@@ -4,6 +4,8 @@
 
 GCC_FILESDIR=${PORTDIR}/sys-devel/gcc/files
 
+ETYPE="gcc-compiler"
+
 inherit multilib toolchain
 
 DESCRIPTION="The GNU Compiler Collection."
