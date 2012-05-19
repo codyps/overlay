@@ -1,6 +1,6 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain-binutils.eclass,v 1.104 2011/11/29 22:45:31 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain-binutils.eclass,v 1.114 2012/05/03 02:32:23 vapier Exp $
 #
 # Maintainer: Toolchain Ninjas <toolchain@gentoo.org>
 #
@@ -8,7 +8,8 @@
 # us easily merge multiple versions for multiple targets (if we wish) and
 # then switch the versions on the fly (with `binutils-config`).
 #
-# binutils-9999           -> live cvs
+# binutils-99999999       -> live cvs
+# binutils-9999           -> live git
 # binutils-9999_preYYMMDD -> nightly snapshot date YYMMDD
 # binutils-#              -> normal release
 
@@ -17,28 +18,37 @@ if [[ -n ${BINUTILS_TYPE} ]] ; then
 	BTYPE=${BINUTILS_TYPE}
 else
 	case ${PV} in
-	9999)      BTYPE="cvs";;
+	99999999)  BTYPE="cvs";;
+	9999)      BTYPE="git";;
 	9999_pre*) BTYPE="snap";;
+	*.*.*.*.*) BTYPE="hjlu";;
 	*)         BTYPE="rel";;
 	esac
 fi
 
-if [[ ${BTYPE} == "cvs" ]] ; then
+case ${BTYPE} in
+cvs)
 	extra_eclass="cvs"
 	ECVS_SERVER="sourceware.org:/cvs/src"
 	ECVS_MODULE="binutils"
 	ECVS_USER="anoncvs"
 	ECVS_PASS="anoncvs"
 	BVER="cvs"
-elif [[ ${BTYPE} == "snap" ]] ; then
+	;;
+git)
+	extra_eclass="git-2"
+	BVER="git"
+	EGIT_REPO_URI="git://sourceware.org/git/binutils.git"
+	;;
+snap)
 	BVER=${PV/9999_pre}
-elif [[ ${BTYPE} == "rel" ]] ; then
-	BVER=${PV}
-else
-	BVER=${BINUTILS_VER}
-fi
+	;;
+*)
+	BVER=${BINUTILS_VER:-${PV}}
+	;;
+esac
 
-inherit eutils libtool flag-o-matic gnuconfig multilib versionator ${extra_eclass}
+inherit eutils libtool flag-o-matic gnuconfig multilib versionator unpacker ${extra_eclass}
 EXPORT_FUNCTIONS src_unpack src_compile src_test src_install pkg_postinst pkg_postrm
 
 export CTARGET=${CTARGET:-${CHOST}}
@@ -53,38 +63,39 @@ DESCRIPTION="Tools necessary to build programs"
 HOMEPAGE="http://sources.redhat.com/binutils/"
 
 case ${BTYPE} in
-	cvs)  SRC_URI="";;
-	snap) SRC_URI="ftp://gcc.gnu.org/pub/binutils/snapshots/binutils-${BVER}.tar.bz2";;
-	rel)
-		SRC_URI="mirror://kernel/linux/devel/binutils/binutils-${PV}.tar.bz2
-			mirror://kernel/linux/devel/binutils/test/binutils-${PV}.tar.bz2
-			mirror://gnu/binutils/binutils-${PV}.tar.bz2"
-		# disable kernel mirrors until kernel.org is back up #383579
-		SRC_URI="mirror://gnu/binutils/binutils-${PV}.tar.bz2"
+	cvs|git) SRC_URI="" ;;
+	snap) SRC_URI="ftp://gcc.gnu.org/pub/binutils/snapshots/binutils-${BVER}.tar.bz2" ;;
+	hjlu)
+		SRC_URI="mirror://kernel/linux/devel/binutils/binutils-${BVER}.tar."
+		version_is_at_least 2.21.51.0.5 && SRC_URI+="xz" || SRC_URI+="bz2" ;;
+	rel) SRC_URI="mirror://gnu/binutils/binutils-${BVER}.tar.bz2" ;;
 esac
 add_src_uri() {
 	[[ -z $2 ]] && return
 	local a=$1
+	if [[ ${BTYPE} == "hjlu" ]] && version_is_at_least 2.22.52.0.2 ; then
+		a+=".xz"
+	else
+		a+=".bz2"
+	fi
 	set -- mirror://gentoo http://dev.gentoo.org/~vapier/dist
 	SRC_URI="${SRC_URI} ${@/%//${a}}"
 }
-add_src_uri binutils-${PV}-patches-${PATCHVER}.tar.bz2 ${PATCHVER}
-add_src_uri binutils-${PV}-uclibc-patches-${UCLIBC_PATCHVER}.tar.bz2 ${UCLIBC_PATCHVER}
-add_src_uri elf2flt-${ELF2FLT_VER}.tar.bz2 ${ELF2FLT_VER}
+add_src_uri binutils-${BVER}-patches-${PATCHVER}.tar ${PATCHVER}
+add_src_uri binutils-${BVER}-uclibc-patches-${UCLIBC_PATCHVER}.tar ${UCLIBC_PATCHVER}
+add_src_uri elf2flt-${ELF2FLT_VER}.tar ${ELF2FLT_VER}
 
 if version_is_at_least 2.18 ; then
 	LICENSE="|| ( GPL-3 LGPL-3 )"
 else
 	LICENSE="|| ( GPL-2 LGPL-2 )"
 fi
-IUSE="nls multitarget multislot static-libs test vanilla"
+IUSE="cxx nls multitarget multislot static-libs test vanilla"
 if version_is_at_least 2.19 ; then
 	IUSE+=" zlib"
 fi
 if use multislot ; then
-	SLOT="${CTARGET}-${BVER}"
-elif is_cross ; then
-	SLOT="${CTARGET}"
+	SLOT="${BVER}"
 else
 	SLOT="0"
 fi
@@ -98,7 +109,10 @@ DEPEND="${RDEPEND}
 	virtual/yacc"
 
 S=${WORKDIR}/binutils
-[[ ${BVER} != "cvs" ]] && S=${S}-${BVER}
+case ${BVER} in
+cvs|git) ;;
+*) S=${S}-${BVER} ;;
+esac
 
 LIBPATH=/usr/$(get_libdir)/binutils/${CTARGET}/${BVER}
 INCPATH=${LIBPATH}/include
@@ -111,10 +125,17 @@ else
 fi
 
 tc-binutils_unpack() {
-	unpack ${A}
+	case ${BTYPE} in
+	cvs) cvs_src_unpack ;;
+	git) git-2_src_unpack ;;
+	*)   unpacker ${A} ;;
+	esac
 	mkdir -p "${MY_BUILDDIR}"
 	[[ -d ${WORKDIR}/patch ]] && mkdir "${WORKDIR}"/patch/skip
 }
+
+# In case the ebuild wants to add a few of their own.
+PATCHES=()
 
 tc-binutils_apply_patches() {
 	cd "${S}"
@@ -146,6 +167,7 @@ tc-binutils_apply_patches() {
 				die "sorry, but this binutils doesn't yet support uClibc :("
 			fi
 		fi
+		[[ ${#PATCHES[@]} -gt 0 ]] && epatch "${PATCHES[@]}"
 		epatch_user
 	fi
 
@@ -205,16 +227,18 @@ toolchain-binutils_src_compile() {
 	set --
 
 	# enable gold if available (installed as ld.gold)
-	if grep -q 'enable-gold=default' "${S}"/configure ; then
-		set -- "$@" --enable-gold
-	# old ways - remove when 2.21 is stable
-	elif grep -q 'enable-gold=both/ld' "${S}"/configure ; then
-		set -- "$@" --enable-gold=both/ld
-	elif grep -q 'enable-gold=both/bfd' "${S}"/configure ; then
-		set -- "$@" --enable-gold=both/bfd
-	fi
-	if grep -q -e '--enable-plugins' "${S}"/ld/configure ; then
-		set -- "$@" --enable-plugins
+	if use cxx ; then
+		if grep -q 'enable-gold=default' "${S}"/configure ; then
+			set -- "$@" --enable-gold
+		# old ways - remove when 2.21 is stable
+		elif grep -q 'enable-gold=both/ld' "${S}"/configure ; then
+			set -- "$@" --enable-gold=both/ld
+		elif grep -q 'enable-gold=both/bfd' "${S}"/configure ; then
+			set -- "$@" --enable-gold=both/bfd
+		fi
+		if grep -q -e '--enable-plugins' "${S}"/ld/configure ; then
+			set -- "$@" --enable-plugins
+		fi
 	fi
 
 	use nls \
@@ -249,7 +273,9 @@ toolchain-binutils_src_compile() {
 		--includedir=${INCPATH} \
 		--enable-64-bit-bfd \
 		--enable-shared \
+		--enable-threads \
 		--disable-werror \
+		--with-bugurl=http://bugs.gentoo.org/ \
 		$(use_enable static-libs static) \
 		${EXTRA_ECONF}
 	echo ./configure "$@"

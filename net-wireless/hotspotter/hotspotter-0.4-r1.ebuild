@@ -4,8 +4,8 @@
 # Nonofficial ebuild by Ycarus. For new version look here : http://gentoo.zugaina.org/
 
 DESCRIPTION="Automatic wireless client penetration"
-HOMEPAGE="http://www.remote-exploit.org/?page_id=418"
-SRC_URI="http://www.remote-exploit.org/wp-content/uploads/2010/01/${P}.tar.gz"
+HOMEPAGE="http://www.remote-exploit.org/articles/misc_research__amp_code/index.html"
+SRC_URI="http://www.remote-exploit.org/content/hotspotter-0.4.tar.gz"
 LICENSE="GPL-2"
 DEPEND=""
 SLOT="0"

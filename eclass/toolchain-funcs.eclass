@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain-funcs.eclass,v 1.108 2011/10/17 19:11:49 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain-funcs.eclass,v 1.110 2012/05/10 03:31:22 vapier Exp $
 
 # @ECLASS: toolchain-funcs.eclass
 # @MAINTAINER:
@@ -13,8 +13,10 @@
 # in such a way that you can rely on the function always returning
 # something sane.
 
-___ECLASS_RECUR_TOOLCHAIN_FUNCS="yes"
-[[ -z ${___ECLASS_RECUR_MULTILIB} ]] && inherit multilib
+if [[ ${___ECLASS_ONCE_TOOLCHAIN_FUNCS} != "recur -_+^+_- spank" ]] ; then
+___ECLASS_ONCE_TOOLCHAIN_FUNCS="recur -_+^+_- spank"
+
+inherit multilib
 
 DESCRIPTION="Based on the ${ECLASS} eclass"
 
@@ -185,6 +187,7 @@ tc-is-cross-compiler() {
 # softfloat flags in the case where support is optional, but
 # rejects softfloat flags where the target always lacks an fpu.
 tc-is-softfloat() {
+	local CTARGET=${CTARGET:-${CHOST}}
 	case ${CTARGET} in
 		bfin*|h8300*)
 			echo "only" ;;
@@ -759,3 +762,5 @@ gen_usr_ldscript() {
 		fperms a+x "/usr/${libdir}/${lib}" || die "could not change perms on ${lib}"
 	done
 }
+
+fi
