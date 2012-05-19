@@ -13,7 +13,9 @@ HOMEPAGE="http://www.perforce.com/"
 SRC_URI="x86? ( ftp://ftp.perforce.com/perforce/r${SHORTREL}/bin.linux26x86/p4 \
 	-> ${PF}-x86 )
 	amd64? ( ftp://ftp.perforce.com/perforce/r${SHORTREL}/bin.linux26x86_64/p4 \
-	-> ${PF}-amd64 )"
+	-> ${PF}-amd64 )
+	ppc?   ( ftp://ftp.perforce.com/perforce/r${SHORTREL}/bin.linux26ppc/p4 \
+	-> ${PF}-ppc )"
 
 LICENSE="perforce"
 SLOT="0"
