@@ -1,6 +1,6 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain-funcs.eclass,v 1.110 2012/05/10 03:31:22 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain-funcs.eclass,v 1.112 2012/06/14 03:38:51 vapier Exp $
 
 # @ECLASS: toolchain-funcs.eclass
 # @MAINTAINER:
@@ -179,9 +179,10 @@ tc-is-cross-compiler() {
 # See if this toolchain is a softfloat based one.
 # @CODE
 # The possible return values:
-#  - only: the target is always softfloat (never had fpu)
-#  - yes:  the target should support softfloat
-#  - no:   the target doesn't support softfloat
+#  - only:   the target is always softfloat (never had fpu)
+#  - yes:    the target should support softfloat
+#  - softfp: (arm specific) the target should use hardfloat insns, but softfloat calling convention
+#  - no:     the target doesn't support softfloat
 # @CODE
 # This allows us to react differently where packages accept
 # softfloat flags in the case where support is optional, but
@@ -192,24 +193,15 @@ tc-is-softfloat() {
 		bfin*|h8300*)
 			echo "only" ;;
 		*)
-			[[ ${CTARGET//_/-} == *-softfloat-* ]] \
-				&& echo "yes" \
-				|| echo "no"
+			if [[ ${CTARGET//_/-} == *-softfloat-* ]] ; then
+				echo "yes"
+			elif [[ ${CTARGET//_/-} == *-softfp-* ]] ; then
+				echo "softfp"
+			else
+				echo "no"
+			fi
 			;;
 	esac
-}
-
-# @FUNCTION: tc-is-hardfloat
-# @DESCRIPTION:
-# See if this toolchain is a hardfloat based one.
-# @CODE
-# The possible return values:
-#  - yes:  the target should support hardfloat
-#  - no:   the target doesn't support hardfloat
-tc-is-hardfloat() {
-	[[ ${CTARGET//_/-} == *-hardfloat-* ]] \
-		&& echo "yes" \
-		|| echo "no"
 }
 
 # @FUNCTION: tc-is-static-only
@@ -223,6 +215,19 @@ tc-is-static-only() {
 	return $([[ ${host} == *-mint* ]])
 }
 
+# @FUNCTION: tc-export_build_env
+# @USAGE: [compiler variables]
+# @DESCRIPTION:
+# Export common build related compiler settings.
+tc-export_build_env() {
+	tc-export "$@"
+	: ${BUILD_CFLAGS:=-O1 -pipe}
+	: ${BUILD_CXXFLAGS:=-O1 -pipe}
+	: ${BUILD_CPPFLAGS:=}
+	: ${BUILD_LDFLAGS:=}
+	export BUILD_{C,CXX,CPP,LD}FLAGS
+}
+
 # @FUNCTION: tc-env_build
 # @USAGE: <command> [command args]
 # @INTERNAL
@@ -232,8 +237,9 @@ tc-is-static-only() {
 # all of the semi-[non-]standard env vars like $BUILD_CC which often
 # the target build system does not check.
 tc-env_build() {
-	CFLAGS=${BUILD_CFLAGS:--O1 -pipe} \
-	CXXFLAGS=${BUILD_CXXFLAGS:--O1 -pipe} \
+	tc-export_build_env
+	CFLAGS=${BUILD_CFLAGS} \
+	CXXFLAGS=${BUILD_CXXFLAGS} \
 	CPPFLAGS=${BUILD_CPPFLAGS} \
 	LDFLAGS=${BUILD_LDFLAGS} \
 	AR=$(tc-getBUILD_AR) \

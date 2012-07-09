@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain.eclass,v 1.537 2012/05/15 18:51:21 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/eclass/toolchain.eclass,v 1.550 2012/06/11 21:07:31 vapier Exp $
 #
 # Maintainer: Toolchain Ninjas <toolchain@gentoo.org>
 
@@ -23,7 +23,7 @@ if [[ ${PV} == *_pre9999* ]] ; then
 	inherit git-2
 fi
 
-EXPORT_FUNCTIONS pkg_setup src_unpack src_compile src_test pkg_preinst src_install pkg_postinst pkg_prerm pkg_postrm
+EXPORT_FUNCTIONS pkg_setup src_unpack src_compile src_test src_install pkg_postinst pkg_postrm
 DESCRIPTION="The GNU Compiler Collection"
 
 FEATURES=${FEATURES/multilib-strict/}
@@ -37,6 +37,10 @@ if [[ ${CTARGET} = ${CHOST} ]] ; then
 		export CTARGET=${CATEGORY/cross-}
 	fi
 fi
+: ${TARGET_ABI:=${ABI}}
+: ${TARGET_MULTILIB_ABIS:=${MULTILIB_ABIS}}
+: ${TARGET_DEFAULT_ABI:=${DEFAULT_ABI}}
+
 is_crosscompile() {
 	[[ ${CHOST} != ${CTARGET} ]]
 }
@@ -478,12 +482,12 @@ create_gcc_env_entry() {
 	# searches that directory first.  This is a temporary
 	# workaround for libtool being stupid and using .la's from
 	# conflicting ABIs by using the first one in the search path
-	local abi=${DEFAULT_ABI}
+	local abi=${TARGET_DEFAULT_ABI}
 	local MULTIDIR=$($(XGCC) $(get_abi_CFLAGS ${abi}) --print-multi-directory)
 	local LDPATH=${LIBPATH}
 	[[ ${MULTIDIR} != "." ]] && LDPATH+=/${MULTIDIR}
-	for abi in $(get_all_abis) ; do
-		[[ ${abi} == ${DEFAULT_ABI} ]] && continue
+	for abi in $(get_all_abis TARGET) ; do
+		[[ ${abi} == ${TARGET_DEFAULT_ABI} ]] && continue
 
 		MULTIDIR=$($(XGCC) $(get_abi_CFLAGS ${abi}) --print-multi-directory)
 		LDPATH+=:${LIBPATH}
@@ -550,14 +554,6 @@ toolchain_pkg_setup() {
 			"This is to try and cut down on people filing bugs for a compiler we do not currently support."
 	fi
 
-	# Setup variables which would normally be in the profile
-	if is_crosscompile ; then
-		multilib_env ${CTARGET}
-		if ! is_multilib ; then
-			MULTILIB_ABIS=${DEFAULT_ABI}
-		fi
-	fi
-
 	# we dont want to use the installed compiler's specs to build gcc!
 	unset GCC_SPECS
 
@@ -570,10 +566,6 @@ toolchain_pkg_setup() {
 	want_minispecs
 
 	unset LANGUAGES #265283
-}
-
-toolchain_pkg_preinst() {
-	:
 }
 
 toolchain_pkg_postinst() {
@@ -607,12 +599,6 @@ toolchain_pkg_postinst() {
 	fi
 }
 
-toolchain_pkg_prerm() {
-	# Don't let these files be uninstalled #87647
-	touch -c "${ROOT}"/sbin/fix_libtool_files.sh \
-		"${ROOT}"/$(get_libdir)/rcscripts/awk/fixlafiles.awk
-}
-
 toolchain_pkg_postrm() {
 	# to make our lives easier (and saner), we do the fix_libtool stuff here.
 	# rather than checking SLOT's and trying in upgrade paths, we just see if
@@ -637,10 +623,10 @@ toolchain_pkg_postrm() {
 		do_gcc_config
 
 		einfo "Running 'fix_libtool_files.sh ${GCC_RELEASE_VER}'"
-		/sbin/fix_libtool_files.sh ${GCC_RELEASE_VER}
+		/usr/sbin/fix_libtool_files.sh ${GCC_RELEASE_VER}
 		if [[ -n ${BRANCH_UPDATE} ]] ; then
 			einfo "Running 'fix_libtool_files.sh ${GCC_RELEASE_VER}-${BRANCH_UPDATE}'"
-			/sbin/fix_libtool_files.sh ${GCC_RELEASE_VER}-${BRANCH_UPDATE}
+			/usr/sbin/fix_libtool_files.sh ${GCC_RELEASE_VER}-${BRANCH_UPDATE}
 		fi
 	fi
 
@@ -825,29 +811,26 @@ gcc-abi-map() {
 }
 
 gcc-multilib-configure() {
-	# if multilib is disabled, get out quick!
 	if ! is_multilib ; then
 		confgcc+=" --disable-multilib"
-		return
+		# Fun times: if we are building for a target that has multiple
+		# possible ABI formats, and the user has told us to pick one
+		# that isn't the default, then not specifying it via the list
+		# below will break that on us.
 	else
 		confgcc+=" --enable-multilib"
 	fi
 
 	# translate our notion of multilibs into gcc's
 	local abi list
-	for abi in $(get_all_abis) ; do
+	for abi in $(get_all_abis TARGET) ; do
 		local l=$(gcc-abi-map ${abi})
 		[[ -n ${l} ]] && list+=",${l}"
 	done
 	if [[ -n ${list} ]] ; then
 		case ${CTARGET} in
 		x86_64*)
-			# drop the 4.6.2 stuff once 4.7 goes stable
-			if tc_version_is_at_least 4.7 ||
-			   ( tc_version_is_at_least 4.6.2 && has x32 $(get_all_abis) )
-			then
-				confgcc+=" --with-multilib-list=${list:1}"
-			fi
+			tc_version_is_at_least 4.7 && confgcc+=" --with-multilib-list=${list:1}"
 			;;
 		esac
 	fi
@@ -960,24 +943,27 @@ gcc-compiler-configure() {
 			fi
 
 			# Enable hardvfp
-			if [[ ${CTARGET##*-} == *eabi* ]] && \
-			   [[ $(tc-is-hardfloat) == yes ]] && \
+			if [[ $(tc-is-softfloat) == "no" ]] && \
+			   [[ ${CTARGET} == armv[67]* ]] && \
 			   tc_version_is_at_least "4.5"
 			then
-				confgcc+=" --with-float=hard"
 				# Follow the new arm hardfp distro standard by default
-				confgcc+=" --with-fpu=vfpv3-d16"
+				confgcc+=" --with-float=hard"
+				case ${CTARGET} in
+				armv6*) confgcc+=" --with-fpu=vfp" ;;
+				armv7*) confgcc+=" --with-fpu=vfpv3-d16" ;;
+				esac
 			fi
 			;;
 		# Add --with-abi flags to set default ABI
 		mips)
-			confgcc+=" --with-abi=$(gcc-abi-map ${DEFAULT_ABI})"
+			confgcc+=" --with-abi=$(gcc-abi-map ${TARGET_DEFAULT_ABI})"
 			;;
 		amd64)
 			# drop the older/ABI checks once this get's merged into some
 			# version of gcc upstream
-			if [[ ${PV} == "4.6.2" ]] && has x32 $(get_all_abis) ; then
-				confgcc+=" --with-abi=$(gcc-abi-map ${DEFAULT_ABI})"
+			if tc_version_is_at_least 4.7 && has x32 $(get_all_abis TARGET) ; then
+				confgcc+=" --with-abi=$(gcc-abi-map ${TARGET_DEFAULT_ABI})"
 			fi
 			;;
 		# Default arch for x86 is normally i386, lets give it a bump
@@ -1097,8 +1083,16 @@ gcc_do_configure() {
 		confgcc+=" $(use_enable lto)"
 	fi
 
-	[[ $(tc-is-softfloat) == "yes" ]] && confgcc+=" --with-float=soft"
-	[[ $(tc-is-hardfloat) == "yes" ]] && confgcc+=" --with-float=hard"
+	case $(tc-is-softfloat) in
+	yes)    confgcc+=" --with-float=soft" ;;
+	softfp) confgcc+=" --with-float=softfp" ;;
+	*)
+		# If they've explicitly opt-ed in, do hardfloat,
+		# otherwise let the gcc default kick in.
+		[[ ${CTARGET//_/-} == *-hardfloat-* ]] \
+			&& confgcc+=" --with-float=hard"
+		;;
+	esac
 
 	# Native Language Support
 	if use nls ; then
@@ -1110,6 +1104,7 @@ gcc_do_configure() {
 	# reasonably sane globals (hopefully)
 	confgcc+=" \
 		--with-system-zlib \
+		--enable-obsolete \
 		--disable-werror \
 		--enable-secureplt"
 
@@ -1127,7 +1122,9 @@ gcc_do_configure() {
 			*-gnu*)			 needed_libc=glibc;;
 			*-klibc)		 needed_libc=klibc;;
 			*-uclibc*)		 needed_libc=uclibc;;
-			*-cygwin)        needed_libc=cygwin;;
+			*-cygwin)		 needed_libc=cygwin;;
+			x86_64-*-mingw*|\
+			*-w64-mingw*)	 needed_libc=mingw64-runtime;;
 			mingw*|*-mingw*) needed_libc=mingw-runtime;;
 			avr)			 confgcc+=" --enable-shared --disable-threads";;
 		esac
@@ -1290,7 +1287,7 @@ gcc_do_make() {
 	else
 		# we only want to use the system's CFLAGS if not building a
 		# cross-compiler.
-		BOOT_CFLAGS=${BOOT_CFLAGS-"$(get_abi_CFLAGS) ${CFLAGS}"}
+		BOOT_CFLAGS=${BOOT_CFLAGS-"$(get_abi_CFLAGS ${TARGET_DEFAULT_ABI}) ${CFLAGS}"}
 	fi
 
 	pushd "${WORKDIR}"/build
@@ -1404,7 +1401,6 @@ gcc_do_filter_flags() {
 }
 
 toolchain_src_compile() {
-	multilib_env ${CTARGET}
 	gcc_do_filter_flags
 	einfo "CFLAGS=\"${CFLAGS}\""
 	einfo "CXXFLAGS=\"${CXXFLAGS}\""
@@ -1922,10 +1918,7 @@ setup_multilib_osdirnames() {
 
 	if [[ ${SYMLINK_LIB} == "yes" ]] ; then
 		einfo "updating multilib directories to be: ${libdirs}"
-		# drop the 4.6.2 stuff once 4.7 goes stable
-		if tc_version_is_at_least 4.7 ||
-		   ( tc_version_is_at_least 4.6.2 && has x32 $(get_all_abis) )
-		then
+		if tc_version_is_at_least 4.7 ; then
 			set -- -e '/^MULTILIB_OSDIRNAMES.*lib32/s:[$][(]if.*):../lib32:'
 		else
 			set -- -e "/^MULTILIB_OSDIRNAMES/s:=.*:= ${libdirs}:"
