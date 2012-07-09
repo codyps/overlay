@@ -1,6 +1,47 @@
 # ChangeLog for sys-devel/binutils
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/sys-devel/binutils/ChangeLog,v 1.438 2012/03/04 06:09:31 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-devel/binutils/ChangeLog,v 1.451 2012/07/06 04:10:45 vapier Exp $
+
+*binutils-2.22.52.0.4 (06 Jul 2012)
+
+  06 Jul 2012; Mike Frysinger <vapier@gentoo.org> +binutils-2.22.52.0.4.ebuild:
+  Version bump.
+
+  15 Jun 2012; Naohiro Aota <naota@gentoo.org> binutils-2.22-r1.ebuild:
+  Add ~x86-fbsd.
+
+  15 Jun 2012; Richard Yao <ryao@gentoo.org> binutils-2.22-r1.ebuild:
+  Modify FBSD patch to include update to ./configure script, bug #421069
+
+  13 Jun 2012; Richard Yao <ryao@gentoo.org> binutils-2.22-r1.ebuild:
+  Push out fix for build failure on FreeBSD (bug #347931) by Naohiro Aota and keyword ~amd64-fbsd
+
+  31 May 2012; Mike Frysinger <vapier@gentoo.org> binutils-2.20.1-r1.ebuild:
+  Push out fix for POSIX test behavior #417549 by Richard Yao.
+
+  22 May 2012; Mike Frysinger <vapier@gentoo.org> binutils-2.22-r1.ebuild,
+  binutils-2.22.52.0.1.ebuild, binutils-2.22.52.0.2.ebuild,
+  binutils-2.22.52.0.3.ebuild:
+  Drop patch-2.6 requirement now that the profile pulls it in.
+
+*binutils-2.22.52.0.3 (09 May 2012)
+
+  09 May 2012; Mike Frysinger <vapier@gentoo.org> +binutils-2.22.52.0.3.ebuild:
+  Version bump.
+
+  26 Apr 2012; Alexis Ballier <aballier@gentoo.org> binutils-2.20.1-r1.ebuild:
+  keyword ~amd64-fbsd
+
+  26 Apr 2012; Mike Frysinger <vapier@gentoo.org> -binutils-2.21.1.ebuild,
+  -binutils-2.21.52.0.1.ebuild, -binutils-2.21.52.0.2.ebuild,
+  -binutils-2.21.53.0.1.ebuild, -binutils-2.21.53.0.2.ebuild,
+  -binutils-2.21.ebuild, -binutils-2.22.ebuild:
+  Move older versions to the toolchain overlay.
+
+*binutils-2.22.52.0.2 (26 Apr 2012)
+
+  26 Apr 2012; Mike Frysinger <vapier@gentoo.org> +binutils-2.22.52.0.2.ebuild:
+  Version bump.
 
   04 Mar 2012; Mike Frysinger <vapier@gentoo.org> binutils-2.22-r1.ebuild:
   Add fix from upstream for hppa/plt handling #406349 by Jeroen Roovers.
