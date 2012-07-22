@@ -53,7 +53,7 @@ src_configure() {
 	econf \
 		--sbindir=/sbin \
 		--enable-shared \
-		--with-libgcrypt-prefix=$(EROOT) \
+		--with-libgcrypt-prefix="${ROOT}" \
 		$(use_enable static static-cryptsetup) \
 		$(use_enable static-libs static) \
 		$(use_enable nls) \
