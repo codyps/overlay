@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-libs/glibc/files/eblits/src_compile.eblit,v 1.23 2012/01/17 23:51:59 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-libs/glibc/files/eblits/src_compile.eblit,v 1.28 2012/07/03 20:07:34 vapier Exp $
 
 glibc_do_configure() {
 	local myconf
@@ -23,8 +23,6 @@ glibc_do_configure() {
 	if has_version '<sys-libs/glibc-2.13' ; then
 		myconf="${myconf} --enable-old-ssp-compat"
 	fi
-
-	use glibc-omitfp && myconf="${myconf} --enable-omitfp"
 
 	[[ ${CTARGET//_/-} == *-softfloat-* ]] && myconf="${myconf} --without-fp"
 
@@ -83,6 +81,8 @@ glibc_do_configure() {
 		--infodir=/usr/share/info
 		--libexecdir=/usr/$(get_libdir)/misc/glibc
 		$(use_multiarch || echo --disable-multi-arch)
+		--enable-obsolete-rpc
+		$(in_iuse systemtap && use_enable systemtap)
 		${EXTRA_ECONF}"
 
 	# There is no configure option for this and we need to export it
@@ -99,6 +99,16 @@ glibc_do_configure() {
 	cd "${GBUILDDIR}"
 	echo "${S}"/configure ${myconf}
 	"${S}"/configure ${myconf} || die "failed to configure glibc"
+
+	# ia64 static cross-compilers are a pita in so much that they
+	# can't produce static ELFs (as the libgcc.a is broken).  so
+	# disable building of the programs for those targets if it
+	# doesn't work.
+	# XXX: We could turn this into a compiler test, but ia64 is
+	# the only one that matters, so this should be fine for now.
+	if is_crosscompile && [[ ${CTARGET} == ia64* ]] ; then
+		sed -i '1i+link-static = touch $@' config.make
+	fi
 }
 
 toolchain-glibc_src_compile() {
@@ -133,7 +143,7 @@ toolchain-glibc_headers_compile() {
 	# the best here ...
 	export \
 		ac_cv_header_cpuid_h=yes \
-		libc_cv_386_tls=yes \
+		libc_cv_{386,390,alpha,arm,hppa,ia64,mips,{powerpc,sparc}{32,64},sh,x86_64}_tls=yes \
 		libc_cv_asm_cfi_directives=yes \
 		libc_cv_broken_visibility_attribute=no \
 		libc_cv_gcc___thread=yes \
