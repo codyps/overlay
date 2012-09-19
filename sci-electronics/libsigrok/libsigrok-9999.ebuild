@@ -6,11 +6,12 @@ EAPI=4
 
 inherit eutils git-2 autotools
 
-DESCRIPTION=""
-HOMEPAGE=""
+DESCRIPTION="Library which provides the basic hardware access drivers for logic analyzers, as
+well as input/output file format support."
+HOMEPAGE="http://sigrok.org/wiki/"
 SRC_URI=""
 
-LICENSE=""
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""

@@ -6,11 +6,12 @@ EAPI=4
 
 inherit eutils git-2 autotools
 
-DESCRIPTION=""
-HOMEPAGE=""
+DESCRIPTION="an intuitive, cross-platform GUI application for acquiring,
+visualizing, and analyzing/decoding logic analyzer signals."
+HOMEPAGE="http://sigrok.org/wiki/"
 SRC_URI=""
 
-LICENSE=""
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""

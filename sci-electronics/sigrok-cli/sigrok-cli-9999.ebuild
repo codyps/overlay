@@ -6,11 +6,11 @@ EAPI=4
 
 inherit eutils git-2 autotools
 
-DESCRIPTION=""
-HOMEPAGE=""
+DESCRIPTION="Command-line client for the sigrok logic analyzer software"
+HOMEPAGE="http://sigrok.org/wiki/"
 SRC_URI=""
 
-LICENSE=""
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
