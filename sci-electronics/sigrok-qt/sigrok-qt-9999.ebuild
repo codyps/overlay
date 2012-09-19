@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="libsigrok"
+DEPEND="sci-electronics/libsigrok"
 RDEPEND="${DEPEND}"
 
 EGIT_REPO_URI="git://sigrok.git.sourceforge.net/gitroot/sigrok/sigrok"
