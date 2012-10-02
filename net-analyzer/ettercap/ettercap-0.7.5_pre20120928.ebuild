@@ -18,6 +18,7 @@ IUSE="gtk ipv6 ncurses plugins ssl"
 RDEPEND="dev-libs/libpcre
 	net-libs/libnet:1.1
 	net-libs/libpcap
+	app-text/ghostscript-gpl
 	sys-libs/zlib
 	gtk? (
 		dev-libs/atk
