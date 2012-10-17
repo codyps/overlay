@@ -8,9 +8,12 @@ cp_pkg () {
 	cp -r "$PORTAGE/$1/$2" "$1"
 }
 
-cp_pkg sys-devel gcc
-cp_pkg sys-devel binutils
-cp_pkg sys-libs  glibc
+cp_pkg sys-devel gcc &&
+cp_pkg sys-devel binutils &&
+cp_pkg sys-libs  glibc &&
 
-mkdir -p eclass
-cp "$PORTAGE"/eclass/toolchain* eclass/
+mkdir -p eclass &&
+cp "$PORTAGE"/eclass/toolchain* eclass/ &&
+
+git add -A . &&
+git commit -m 'Import on '"`date`"'.'
