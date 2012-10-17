@@ -1,3 +1,5 @@
 * Adding with layman:
 
-  layman -f -a jmesmon -o http://github.com/jmesmon/jmesmon-overlay/raw/master/overlays.xml
+  layman -f -a jmesmon -o http://github.com/jmesmon/overlay/raw/master/overlays.xml
+
+  layman -f -a toolchain-for-funtoo -o http://github.com/jmesmon/overlay/raw/master/overlays.xml
