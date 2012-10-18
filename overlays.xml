@@ -11,7 +11,7 @@
 	<overlay
 		contact = "jmesmon@gmail.com"
 		type = "git"
-		src  = "git://github.com/jmesmon/overlay.git toolchain-for-funtoo"
+		src  = "-b toolchain-for-funtoo git://github.com/jmesmon/overlay.git"
 		name = "toolchain-for-funtoo">
 		<link>http://github.com/jmesmon/overlay</link>
 		<description>Gentoo toolchain ebuilds &amp; eclasses</description>
