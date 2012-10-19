@@ -12,7 +12,7 @@
 		contact = "jmesmon@gmail.com"
 		type = "git"
 		src  = "git://github.com/jmesmon/overlay.git"
-		subpath = "toolchain-for-funtoo"
+		branch = "toolchain-for-funtoo"
 		name = "toolchain-for-funtoo">
 		<link>http://github.com/jmesmon/overlay</link>
 		<description>Gentoo toolchain ebuilds &amp; eclasses</description>
