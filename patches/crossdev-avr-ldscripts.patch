@@ -1,0 +1,29 @@
+From efd35cd44770fbb5fc18b2a155f83911abc24f0d Mon Sep 17 00:00:00 2001
+From: Brandon Penglase <da5id2001@spaceservices.net>
+Date: Sun, 15 Apr 2012 12:57:29 -0400
+Subject: [PATCH 2/2] Added check to have ldscripts symlink created for avr
+ target (bug: 147155)
+
+---
+ crossdev |    8 ++++++++
+ 1 files changed, 8 insertions(+), 0 deletions(-)
+
+diff --git a/crossdev b/crossdev
+index 1d15477..9c3b15f 100755
+--- a/crossdev
++++ b/crossdev
+@@ -1088,4 +1088,12 @@ ex_gcc && USE="${GUSE} ${USE}" doemerge ${GPKG} ${GPKG}-extra
+ ex_gdb && USE="${DUSE} ${USE}" doemerge ${DPKG}
+ ex_insight && doemerge insight
+ 
++case ${CTARGET} in
++        # avr requires multilib, that provides
++        # libgcc for all sub-architectures #378387
++        avr*)
++                einfo "Setting ${CTARGET} ldscripts symlink (Bug: 147155)" ;
++                ln -s /usr/${HCHOST}/${CTARGET}/lib/ldscripts/ /usr/${CTARGET}/lib/;;
++esac
++
+ exit 0
+-- 
+1.7.8.5
