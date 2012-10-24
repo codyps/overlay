@@ -1,0 +1,41 @@
+diff --git a/layman/overlays/git.py b/layman/overlays/git.py
+index 81e650c..51e65fd 100644
+--- a/layman/overlays/git.py
++++ b/layman/overlays/git.py
+@@ -43,6 +43,7 @@ class GitOverlay(OverlaySource):
+         super(GitOverlay, self).__init__(parent, config,
+             _location, ignore)
+         self.subpath = None
++        self.branch = parent.branch
+ 
+     def add(self, base):
+         '''Add overlay.'''
+@@ -68,6 +69,9 @@ class GitOverlay(OverlaySource):
+             args.append('-q')
+         if len(cfg_opts):
+             args.append(cfg_opts)
++        if len(self.branch):
++            args.append('-b')
++            args.append(self.branch)
+         args.append(fix_git_source(self.src))
+         args.append(target)
+         success = False
+diff --git a/layman/overlays/overlay.py b/layman/overlays/overlay.py
+index 8eb0870..95a9e30 100755
+--- a/layman/overlays/overlay.py
++++ b/layman/overlays/overlay.py
+@@ -152,6 +152,14 @@ class Overlay(object):
+             raise Exception('Overlay from_xml(), "' + self.name + \
+                 '" is missing a "source" entry!')
+ 
++        _branch = xml.find('branch')
++        if _branch != None:
++            self.branch = encode(_branch.text.strip())
++        elif 'branch' in xml.attrib:
++            self.branch = encode(xml.attrib['branch'])
++        else:
++            self.branch = ''
++
+         self.sources = [create_overlay_source(e) for e in _sources]
+ 
+         _subpath = xml.find('subpath')
