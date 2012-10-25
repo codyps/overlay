@@ -1,3 +1,16 @@
+diff --git a/doc/layman.8.txt b/doc/layman.8.txt
+index 3dd0475..3dfb1f6 100644
+--- a/doc/layman.8.txt
++++ b/doc/layman.8.txt
+@@ -49,6 +49,8 @@ an overlay.
+ To ensure the security of your system you MUST read the source of
+ the ebuild you are about to install.
+ 
++This revision supports the fetching from branches of git trees.
++
+ 
+ OPTIONS
+ -------
 diff --git a/layman/overlays/git.py b/layman/overlays/git.py
 index 81e650c..51e65fd 100644
 --- a/layman/overlays/git.py
