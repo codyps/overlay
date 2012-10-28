@@ -15,5 +15,5 @@ cp_pkg sys-libs  glibc &&
 mkdir -p eclass &&
 cp "$PORTAGE"/eclass/toolchain* eclass/ &&
 
-git add -A . &&
+git add -A sys-libs eclass sys-devel &&
 git commit -m 'Import on '"`date`"'.'
