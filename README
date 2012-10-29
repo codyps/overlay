@@ -7,7 +7,7 @@
 * For the 'toolchain-for-funtoo' repository, you'll need my patches to layman to enable the fetching of branches.
 
   cd /etc/portage
-  git clone https://github.com/jmesmon/overlay -b patches
+  git clone https://github.com/jmesmon/overlay -b patches patches
 
   # edit /etc/make.conf to add "localpatch" to FEATURES
   # Or edit /etc/portage/bashrc to call 'epatch_user' at an appropriate time.
