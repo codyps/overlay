@@ -12,6 +12,7 @@ if [ "${PV}" -eq 9999 ]; then
 	EGIT_MASTER="development"
 else
 	SRC_URI="mirror://github/${PN}/${PN}/${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86 ~ppc-macos"
 fi
 
 DESCRIPTION="A linkable library for Git"
@@ -19,7 +20,6 @@ HOMEPAGE="http://libgit2.github.com/"
 
 LICENSE="GPL-2-with-linking-exception"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~ppc-macos"
 IUSE="examples test"
 
 RDEPEND="sys-libs/zlib"
