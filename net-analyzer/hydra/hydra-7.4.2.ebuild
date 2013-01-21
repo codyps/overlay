@@ -7,7 +7,7 @@ inherit eutils toolchain-funcs
 
 DESCRIPTION="Advanced parallized login hacker"
 HOMEPAGE="http://www.thc.org/thc-hydra/"
-SRC_URI="http://freeworld.thc.org/releases/${P}-src.tar.gz"
+SRC_URI="http://www.thc.org/releases/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
