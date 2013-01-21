@@ -1,0 +1,3 @@
+# Bugs that I've had to work around.
+
+app-vim/ctx RDEPEND+="vim[+perl]"
