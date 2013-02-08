@@ -19,7 +19,7 @@ ftp gif ggi gsm +iconv ipv6 jack joystick jpeg jpeg2k kernel_linux ladspa
 radio +rar +real +rtc rtmp samba +shm sdl +speex sse sse2 ssse3
 tga +theora +tremor +truetype +toolame +twolame +unicode v4l vdpau vidix
 +vorbis win32codecs +X +x264 xanim xinerama +xscreensaver +xv +xvid xvmc
-zoran"
+zoran +autocpufeatures"
 
 VIDEO_CARDS="s3virge mga tdfx"
 for x in ${VIDEO_CARDS}; do
@@ -513,10 +513,12 @@ src_configure() {
 	# Platform specific flags, hardcoded on amd64 (see below)
 	use cpudetection && myconf+=" --enable-runtime-cpudetection"
 
-	uses="3dnow 3dnowext altivec mmx mmxext shm sse sse2 ssse3"
-	for i in ${uses}; do
-		myconf+=" $(use_enable ${i})"
-	done
+	if ! use autocpufeatures; then
+		uses="3dnow 3dnowext altivec mmx mmxext shm sse sse2 ssse3"
+		for i in ${uses}; do
+			myconf+=" $(use_enable ${i})"
+		done
+	fi
 
 	use debug && myconf+=" --enable-debug=3"
 
