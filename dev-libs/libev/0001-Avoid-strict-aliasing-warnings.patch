@@ -1,0 +1,27 @@
+From 60a41a2983d14df80541f7a3dba9bdd6a63f9306 Mon Sep 17 00:00:00 2001
+From: Cody P Schafer <jmesmon@gmail.com>
+Date: Thu, 21 Feb 2013 22:17:32 -0800
+Subject: [PATCH] Avoid strict aliasing warnings.
+
+---
+ ev.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ev.h b/ev.h
+index a8973ab..dddc21b 100644
+--- a/ev.h
++++ b/ev.h
+@@ -676,8 +676,8 @@ EV_API_DECL void ev_resume  (EV_P) EV_THROW;
+ /* these may evaluate ev multiple times, and the other arguments at most once */
+ /* either use ev_init + ev_TYPE_set, or the ev_TYPE_init macro, below, to first initialise a watcher */
+ #define ev_init(ev,cb_) do {			\
+-  ((ev_watcher *)(void *)(ev))->active  =	\
+-  ((ev_watcher *)(void *)(ev))->pending = 0;	\
++  ((ev_watcher *)(union ev_any_watcher *)(ev))->active  =	\
++  ((ev_watcher *)(union ev_any_watcher *)(ev))->pending = 0;	\
+   ev_set_priority ((ev), 0);			\
+   ev_set_cb ((ev), cb_);			\
+ } while (0)
+-- 
+1.8.0
+
