@@ -1,5 +1,117 @@
 # ChangeLog for sys-libs/glibc
-# $Header: /var/cvsroot/gentoo-x86/sys-libs/glibc/ChangeLog,v 1.900 2012/10/21 17:17:18 blueness Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-libs/glibc/ChangeLog,v 1.925 2013/02/12 15:53:08 jer Exp $
+
+  12 Feb 2013; Jeroen Roovers <jer@gentoo.org> glibc-2.15-r1.ebuild,
+  glibc-2.15-r2.ebuild:
+  Mask sys-libs/glibc-2.15 for HPPA too.
+
+  12 Feb 2013; Raúl Porcel <armin76@gentoo.org> glibc-2.15-r3.ebuild:
+  m68k stable
+
+  09 Feb 2013; Mike Frysinger <vapier@gentoo.org>
+  files/eblits/pkg_preinst.eblit:
+  Revert manual gcc dir search #453760 since that the real bug is broken
+  ld.so.cache searching #454200.
+
+  09 Feb 2013; Mike Frysinger <vapier@gentoo.org> ChangeLog-2007,
+  files/eblits/src_unpack.eblit, glibc-2.10.1-r1.ebuild, glibc-2.11.3.ebuild,
+  glibc-2.12.1-r3.ebuild, glibc-2.12.2.ebuild, glibc-2.13-r2.ebuild,
+  glibc-2.13-r4.ebuild, glibc-2.14.1-r2.ebuild, glibc-2.14.1-r3.ebuild,
+  glibc-2.14.ebuild, glibc-2.15-r1.ebuild, glibc-2.15-r2.ebuild,
+  glibc-2.15-r3.ebuild, glibc-2.16.0.ebuild, glibc-2.17.ebuild,
+  glibc-2.9_p20081201-r3.ebuild, glibc-9999.ebuild:
+  Update SRC_URI/bug/mail links to use sourceware.org #455152 by wbrana.
+
+  28 Jan 2013; Mike Frysinger <vapier@gentoo.org>
+  files/eblits/src_compile.eblit:
+  Also set libc_cv_{sparc,powerpc}_tls as newer versions use that.
+
+  25 Jan 2013; Mike Frysinger <vapier@gentoo.org>
+  files/eblits/pkg_preinst.eblit:
+  Refactor sanity checks a bit and include gcc in the search path #453760 by
+  William Throwe.
+
+  23 Jan 2013; Mike Frysinger <vapier@gentoo.org> glibc-2.16.0.ebuild,
+  glibc-2.17.ebuild:
+  Add fix from upstream for slow math calls on x86 #431938 by wbrana.
+
+  23 Jan 2013; Mike Frysinger <vapier@gentoo.org> glibc-2.17.ebuild:
+  Push out hppa fixes from upstream #452184 by Guy Martin.
+
+  12 Jan 2013; Raúl Porcel <armin76@gentoo.org> glibc-2.16.0.ebuild:
+  2.16.0 breaks some packages on alpha, 2.17 works fine
+
+  08 Jan 2013; Mike Frysinger <vapier@gentoo.org> glibc-2.17.ebuild:
+  Add hppa/fpu fix from Guy Martin #450676 by Jeroen Roovers.
+
+  02 Jan 2013; Mike Frysinger <vapier@gentoo.org>
+  files/eblits/src_compile.eblit, glibc-2.17.ebuild, glibc-9999.ebuild,
+  metadata.xml:
+  Add IUSE=nscd to control support for it.
+
+  30 Dec 2012; Ulrich Müller <ulm@gentoo.org> glibc-2.9_p20081201-r3.ebuild,
+  glibc-2.10.1-r1.ebuild, glibc-2.11.3.ebuild, glibc-2.12.1-r3.ebuild,
+  glibc-2.12.2.ebuild, glibc-2.13-r2.ebuild, glibc-2.13-r4.ebuild,
+  glibc-2.14.ebuild, glibc-2.14.1-r2.ebuild, glibc-2.14.1-r3.ebuild,
+  glibc-2.15-r1.ebuild, glibc-2.15-r2.ebuild, glibc-2.15-r3.ebuild,
+  glibc-2.16.0.ebuild, glibc-2.17.ebuild, glibc-9999.ebuild:
+  Specify LICENSE more precisely, bug 448132.
+
+  28 Dec 2012; Mike Frysinger <vapier@gentoo.org>
+  +files/2.17/glibc-2.17-hardened-pie.patch, glibc-2.17.ebuild:
+  Update hardened patch by Alphat-PC #448876.
+
+  28 Dec 2012; Mike Frysinger <vapier@gentoo.org> glibc-2.16.0.ebuild:
+  Fix building w/sed-4.2.2+ #448224 by Viacheslav Gagara.  Fix use of gcc-4.2
+  and byteswap.h #448888 by Alphat-PC.
+
+  28 Dec 2012; Mike Frysinger <vapier@gentoo.org> files/eblits/common.eblit,
+  files/eblits/src_compile.eblit, files/eblits/src_unpack.eblit:
+  Use --with-{bugurl,pkgversion} with glibc-2.17+.
+
+*glibc-2.17 (25 Dec 2012)
+
+  25 Dec 2012; Mike Frysinger <vapier@gentoo.org> +glibc-2.17.ebuild,
+  glibc-9999.ebuild:
+  Version bump.
+
+  25 Dec 2012; Mike Frysinger <vapier@gentoo.org>
+  files/eblits/src_compile.eblit:
+  Force usage of bfd linker if active linker is gold #269274 by Chris Smith.
+
+  18 Nov 2012; Mike Frysinger <vapier@gentoo.org> glibc-2.16.0.ebuild:
+  Fix arm cross-compile errors with _Unwind_Resume.
+
+  18 Nov 2012; Mike Frysinger <vapier@gentoo.org>
+  files/eblits/src_compile.eblit:
+  Disable fortify/ssp compiler checks when build glibc headers #443632 by Andrej
+  Gelenberg.
+
+  11 Nov 2012; Magnus Granberg <zorry@gentoo.org> glibc-2.16.0.ebuild,
+  +files/2.16/glibc-2.16-hardened-pie.patch:
+  Update the hardened pie patch for 2.16, bug #442712
+
+  11 Nov 2012; Mike Frysinger <vapier@gentoo.org>
+  files/eblits/src_install.eblit, files/eblits/src_unpack.eblit,
+  glibc-2.16.0.ebuild:
+  Fix cross-compile bootstrapping of glibc headers with 2.16.0.
+
+  02 Nov 2012; Mike Frysinger <vapier@gentoo.org> glibc-2.10.1-r1.ebuild,
+  glibc-2.11.3.ebuild, glibc-2.12.1-r3.ebuild, glibc-2.12.2.ebuild,
+  glibc-2.13-r2.ebuild, glibc-2.13-r4.ebuild, glibc-2.14.1-r2.ebuild,
+  glibc-2.14.1-r3.ebuild, glibc-2.14.ebuild, glibc-2.15-r1.ebuild,
+  glibc-2.15-r2.ebuild, glibc-2.15-r3.ebuild, glibc-2.16.0.ebuild,
+  glibc-2.9_p20081201-r3.ebuild, glibc-9999.ebuild:
+  Drop libtool inherit since we do not use it.
+
+  01 Nov 2012; Raúl Porcel <armin76@gentoo.org> glibc-2.15-r3.ebuild:
+  sparc stable wrt #404993
+
+  31 Oct 2012; Mike Frysinger <vapier@gentoo.org> glibc-2.16.0.ebuild:
+  Move into ~arch.
+
+  31 Oct 2012; Mike Frysinger <vapier@gentoo.org> glibc-2.15-r3.ebuild:
+  Mark alpha/ia64/s390 stable #404993.
 
   21 Oct 2012; Anthony G. Basile <blueness@gentoo.org> glibc-2.15-r3.ebuild:
   stable arm, bug #404993

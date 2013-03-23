@@ -1,6 +1,34 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-libs/glibc/files/eblits/pkg_preinst.eblit,v 1.6 2012/10/02 07:12:17 vapier Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-libs/glibc/files/eblits/pkg_preinst.eblit,v 1.8 2013/02/09 05:39:21 vapier Exp $
+
+# Simple test to make sure our new glibc isnt completely broken.
+# Make sure we don't test with statically built binaries since
+# they will fail.  Also, skip if this glibc is a cross compiler.
+glibc_sanity_check() {
+	cd / #228809
+
+	# We enter ${D} so to avoid trouble if the path contains
+	# special characters; for instance if the path contains the
+	# colon character (:), then the linker will try to split it
+	# and look for the libraries in an unexpected place. This can
+	# lead to unsafe code execution if the generated prefix is
+	# within a world-writable directory.
+	# (e.g. /var/tmp/portage:${HOSTNAME})
+	pushd "${D}"/$(get_libdir) >/dev/null
+
+	local x striptest
+	for x in date env ls true uname ; do
+		x=$(type -p ${x})
+		[[ -z ${x} ]] && continue
+		striptest=$(LC_ALL="C" file -L ${x} 2>/dev/null) || continue
+		[[ ${striptest} == *"statically linked"* ]] && continue
+		./ld-*.so --library-path . ${x} > /dev/null \
+			|| die "simple run test (${x}) failed"
+	done
+
+	popd >/dev/null
+}
 
 eblit-glibc-pkg_preinst() {
 	# nothing to do if just installing headers
@@ -15,29 +43,7 @@ eblit-glibc-pkg_preinst() {
 		elog "Defaulting /etc/host.conf:multi to on"
 	fi
 
-	# simple test to make sure our new glibc isnt completely broken.
-	# make sure we don't test with statically built binaries since
-	# they will fail.  also, skip if this glibc is a cross compiler.
 	[[ ${ROOT} != "/" ]] && return 0
 	[[ -d ${D}/$(get_libdir) ]] || return 0
-	cd / #228809
-	local x striptest
-	for x in date env ls true uname ; do
-		x=$(type -p ${x})
-		[[ -z ${x} ]] && continue
-		striptest=$(LC_ALL="C" file -L ${x} 2>/dev/null)
-		[[ -z ${striptest} ]] && continue
-		[[ ${striptest} == *"statically linked"* ]] && continue
-		# we enter ${D} so to avoid trouble if the path contains
-		# special characters; for instance if the path contains the
-		# colon character (:), then the linker will try to split it
-		# and look for the libraries in an unexpected place. This can
-		# lead to unsafe code execution if the generated prefix is
-		# within a world-writable directory
-		# (e.g. /var/tmp/portage:${HOSTNAME})
-		pushd "${D}"/$(get_libdir) 2>/dev/null
-		./ld-*.so --library-path . ${x} > /dev/null \
-			|| die "simple run test (${x}) failed"
-		popd 2>/dev/null
-	done
+	glibc_sanity_check
 }
