@@ -1,0 +1,65 @@
+From 153632376f927f813d78194cc91dc27ab3fc3af8 Mon Sep 17 00:00:00 2001
+From: Cody P Schafer <jmesmon@gmail.com>
+Date: Tue, 5 Mar 2013 17:28:56 -0800
+Subject: [PATCH 3/3] disable broken btrfs code.
+
+`btrfs subvolume list /` does not output anything on my system.
+
+`btrfs subvolume list -a /` results in:
+
+	ID 256 gen 641890 top level 5 path <FS_TREE>/root
+	ID 258 gen 641888 top level 5 path <FS_TREE>/home
+
+`btrfs version` = Btrfs v0.20-rc1
+
+On another system:
+`btrfs subvolume list /` results in:
+
+	ID 256 top level 5 path @
+	ID 258 top level 5 path @home
+	ID 261 top level 5 path @distfiles
+	ID 262 top level 5 path @portage
+
+`btrfs version` = Btrfs Btrfs v0.19
+
+---
+If the goal is to get the subvolume of the root volume, using the
+contents of /proc/self/mountinfo (look for '/' in the 5th col, parse
+options out of the 10th col) will work. In fact, why not just get all
+the rootflags there?
+---
+ python/modules/funtoo/boot/extensions/grub.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/python/modules/funtoo/boot/extensions/grub.py b/python/modules/funtoo/boot/extensions/grub.py
+index 460697e..d91e302 100644
+--- a/python/modules/funtoo/boot/extensions/grub.py
++++ b/python/modules/funtoo/boot/extensions/grub.py
+@@ -104,8 +104,8 @@ class GRUBExtension(Extension):
+ 		ok, allmsgs, fstype = self.r.DoRootfstypeAuto(params, ok, allmsgs)
+ 		if not ok:
+ 			return [ ok, allmsgs ]
+-		if fstype == "btrfs":
+-			params.append('%sflags=subvol=%s' % int( self.r.rootarg, self.BtrfsSubvol()))
++		#if fstype == "btrfs":
++		#	params.append('%sflags=subvol=%s' % int( self.r.rootarg, self.BtrfsSubvol()))
+ 
+ 		initrds = self.config.item(sect, "initrd")
+ 		initrds = self.r.FindInitrds(initrds, kname, kext)
+@@ -249,11 +249,12 @@ class GRUBExtension(Extension):
+ 			return retval, output[0].decode().strip("\n")
+ 
+ 	def BtrfsSubvol(self):
+-		cmdobj = Popen("btrfs subvol list /", bufsize=-1, stdout=PIPE, stderr=PIPE, shell=False)
++		cmdobj = Popen("btrfs subvol list -a /", bufsize=-1, stdout=PIPE, stderr=PIPE, shell = True)
+ 		output = cmdobj.communicate()[0].decode()
+ 		retval = cmdobj.poll()
+ 		if retval != 0:
+ 			raise ExtensionError("btrfs command failed: %s" % output)
++		print(output.split())
+ 		return output.split()[6]	
+ 
+ 	def RequiredGRUBModules(self, dev):
+-- 
+1.8.1.5
+
