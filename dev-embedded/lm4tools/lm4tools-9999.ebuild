@@ -30,6 +30,6 @@ src_compile () {
 
 src_install () {
 	dobin lm4flash/lm4flash
-	dobin lmicdiusb/lmicdiusb
+	dobin lmicdiusb/lmicdi
 	dodoc README.md lmicdiusb/{README,commands.txt}
 }
