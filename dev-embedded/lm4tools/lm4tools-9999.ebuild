@@ -6,7 +6,7 @@ EAPI=4
 
 EGIT_REPO_URI=" https://github.com/utzig/lm4tools.git"
 
-inherit eutils git-2
+inherit eutils toolchain-funcs git-2
 
 DESCRIPTION="provides lm4flash and lmicdiusb for developing on the TI Stellaris Launchpad"
 HOMEPAGE="https://github.com/utzig/lm4tools"
