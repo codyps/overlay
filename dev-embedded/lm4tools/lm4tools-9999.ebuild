@@ -15,18 +15,21 @@ LICENSE="GPL-2+ MIT"
 SLOT="0"
 IUSE=""
 
-# Common to both DEPEND and RDEPEND
-CDEPEND="virtual/libusb:1"
-RDEPEND="${CDEPEND}"
-DEPEND="${CDEPEND}"
+RDEPEND="virtaul/libusb:1"
+DEPEND="${RDEPEND}
+	virtual/pkgconfig"
+
+src_prepare () {
+	sed -e "s:gcc:$(tc-getCC):" -i lm4flash/Makefile || die
+}
 
 src_compile () {
+	CC=$(tc-getCC) emake -C lmicdiusb
 	emake -C lm4flash
-	emake -C lmicdiusb
 }
 
 src_install () {
 	dobin lm4flash/lm4flash
 	dobin lmicdiusb/lmicdiusb
-	dodoc README.md lmicdiusb/README
+	dodoc README.md lmicdiusb/{README,commands.txt}
 }
