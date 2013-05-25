@@ -15,7 +15,7 @@ LICENSE="GPL-2+ MIT"
 SLOT="0"
 IUSE=""
 
-RDEPEND="virtaul/libusb:1"
+RDEPEND="virtual/libusb:1"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
