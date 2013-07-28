@@ -9,23 +9,25 @@ inherit eutils git-2 autotools
 DESCRIPTION="Command-line client for the sigrok logic analyzer software"
 HOMEPAGE="http://sigrok.org/wiki/"
 SRC_URI=""
+EGIT_REPO_URI="git://sigrok.org/sigrok-cli"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64"
-IUSE=""
+KEYWORDS=""
+IUSE="decode"
 
-DEPEND="sci-electronics/libsigrok"
+# >=automake-1.11
+# >=autoconf-2.63
+# >=pkg-config-0.22
+DEPEND=">=sci-electronics/libsigrok-0.2.0
+	decode? ( >=sci-electronics/libsigrokdecode-0.2.0 )
+	>=dev-libs/glib-2.28.0"
 RDEPEND="${DEPEND}"
 
-EGIT_REPO_URI="git://sigrok.git.sourceforge.net/gitroot/sigrok/sigrok"
-
 src_prepare() {
-	cd "${PN}"
 	eautoreconf
 }
 
 src_install() {
-	cd "${PN}"
 	emake DESTDIR="${D}" install || die "Install failed"
 }
