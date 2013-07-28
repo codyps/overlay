@@ -29,11 +29,9 @@ DEPEND=">=dev-libs/glib-2.32.0
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	cd "${PN}"
 	eautoreconf
 }
 
 src_install() {
-	cd "${PN}"
 	emake DESTDIR="${D}" install || die "Install failed"
 }

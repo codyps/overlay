@@ -9,23 +9,23 @@ inherit eutils git-2 autotools
 DESCRIPTION="Library which provides (streaming) protocol decoding functionality."
 HOMEPAGE="http://sigrok.org/wiki/"
 SRC_URI=""
+EGIT_REPO_URI="git://sigrok.org/libsigrokdecode"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS=""
 IUSE=""
 
-DEPEND=""
+# >=pkg-config-0.22
+# >=automake-1.11
+DEPEND=">=dev-libs/glib-2.24.0
+	>=dev-lang/python-3"
 RDEPEND="${DEPEND}"
 
-EGIT_REPO_URI="git://sigrok.git.sourceforge.net/gitroot/sigrok/sigrok"
-
 src_prepare() {
-	cd "${PN}"
 	eautoreconf
 }
 
 src_install() {
-	cd "${PN}"
 	emake DESTDIR="${D}" install || die "Install failed"
 }
