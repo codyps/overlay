@@ -8,7 +8,7 @@ inherit eutils git-2 autotools
 
 DESCRIPTION="Library which provides the basic hardware access drivers for logic analyzers, as
 well as input/output file format support."
-HOMEPAGE="http://sigrok.org/wiki/"
+HOMEPAGE="http://sigrok.org/"
 
 SRC_URI=""
 EGIT_REPO_URI="git://sigrok.org/libsigrok"

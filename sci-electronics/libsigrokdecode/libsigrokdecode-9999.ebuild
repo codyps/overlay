@@ -7,7 +7,7 @@ EAPI=4
 inherit eutils git-2 autotools
 
 DESCRIPTION="Library which provides (streaming) protocol decoding functionality."
-HOMEPAGE="http://sigrok.org/wiki/"
+HOMEPAGE="http://sigrok.org/"
 SRC_URI=""
 EGIT_REPO_URI="git://sigrok.org/libsigrokdecode"
 
