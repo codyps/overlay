@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index d93b976..3b4f2f9 100644
+index d93b976..6d2ee2b 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1,79 +1,43 @@
+@@ -1,79 +1,41 @@
 -CFLAGS = -O2 -Wall # -D NOBEEP
 +CFLAGS ?= -O2 -Wall # -D NOBEEP
  
@@ -17,11 +17,8 @@ index d93b976..3b4f2f9 100644
  
  doc: seccure.1 seccure.1.html
  
-+install-man: seccure.1
-+	install -m0644 seccure.1 $(DESTDIR)/usr/share/man/man1
-+
  install: default
- 	install -m0755 seccure-key $(DESTDIR)/usr/bin
+-	install -m0755 seccure-key $(DESTDIR)/usr/bin
 -	ln -f $(DESTDIR)/usr/bin/seccure-key $(DESTDIR)/usr/bin/seccure-encrypt
 -	ln -f $(DESTDIR)/usr/bin/seccure-key $(DESTDIR)/usr/bin/seccure-decrypt
 -	ln -f $(DESTDIR)/usr/bin/seccure-key $(DESTDIR)/usr/bin/seccure-sign
@@ -30,8 +27,10 @@ index d93b976..3b4f2f9 100644
 -	ln -f $(DESTDIR)/usr/bin/seccure-key $(DESTDIR)/usr/bin/seccure-veridec
 -	ln -f $(DESTDIR)/usr/bin/seccure-key $(DESTDIR)/usr/bin/seccure-dh
 -	install -m0644 seccure.1 $(DESTDIR)/usr/share/man/man1
++	install -D -m0755 seccure-key $(DESTDIR)/usr/bin
 +	$(foreach sym,$(BIN_SYM),\
 +		ln -f $(DESTDIR)/usr/bin/$(BIN) $(DESTDIR)/usr/bin/$(sym))
++	install -D -m0644 seccure.1 $(DESTDIR)/usr/share/man/man1
  
  clean:
 -	rm -f *.o *~ seccure-key seccure-encrypt seccure-decrypt seccure-sign \

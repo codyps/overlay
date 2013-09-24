@@ -20,27 +20,12 @@ HOMEPAGE="http://point-at-infinity.org/seccure/"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="+doc"
+IUSE=""
 
 RDEPEND="dev-libs/libgcrypt"
-
-DEPEND="${RDEPEND}
-	doc? ( app-doc/xmltoman )"
+DEPEND="${RDEPEND}"
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-fixup-makefile.patch"
 }
 
-src_install() {
-	default
-	if use doc; then
-		emake DESTDIR="${D}" install-man
-	fi
-}
-
-src_compile() {
-	default
-	if use doc; then
-		emake seccure.1
-	fi
-}
