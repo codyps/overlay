@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index d93b976..452c0c5 100644
+index d93b976..56a4438 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -1,79 +1,43 @@
@@ -28,7 +28,7 @@ index d93b976..452c0c5 100644
 -	ln -f $(DESTDIR)/usr/bin/seccure-key $(DESTDIR)/usr/bin/seccure-veridec
 -	ln -f $(DESTDIR)/usr/bin/seccure-key $(DESTDIR)/usr/bin/seccure-dh
 +	$(foreach sym,$(BIN_SYM),\
-+		ln -f $(DESTDIR)/usr/bin/$(BIN) $(DESTDIR)/usr/bin/$(sym))
++		ln -f $(DESTDIR)/usr/bin/$(BIN) $(DESTDIR)/usr/bin/$(sym);)
 +	mkdir -p $(DESTDIR)/usr/share/man/man1
  	install -m0644 seccure.1 $(DESTDIR)/usr/share/man/man1
  
