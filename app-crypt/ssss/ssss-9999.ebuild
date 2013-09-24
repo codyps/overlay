@@ -29,6 +29,7 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	if [ ${PV} != 9999 ]; then
 		epatch "${FILESDIR}/${P}-fixup-makefile.patch"
+		epatch "${FILESDIR}/0001-properly-zero-buffer.patch"
 	fi
 }
 

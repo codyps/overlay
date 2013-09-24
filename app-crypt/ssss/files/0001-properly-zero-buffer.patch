@@ -1,0 +1,25 @@
+From 5d2cd9aa582c2a34afec38dc92d8db55435ed5fd Mon Sep 17 00:00:00 2001
+From: Cody P Schafer <devel@codyps.com>
+Date: Tue, 24 Sep 2013 00:51:15 -0500
+Subject: [PATCH] properly zero buffer
+
+---
+ ssss.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ssss.c b/ssss.c
+index 717b98b..d2415b4 100644
+--- a/ssss.c
++++ b/ssss.c
+@@ -171,7 +171,7 @@ void field_print(FILE* stream, const mpz_t x, int hexmode)
+     size_t t;
+     unsigned int i;
+     int printable, warn = 0;
+-    memset(buf, degree / 8 + 1, 0);
++    memset(buf, 0, degree / 8 + 1);
+     mpz_export(buf, &t, 1, 1, 0, 0, x);
+     for(i = 0; i < t; i++) {
+       printable = (buf[i] >= 32) && (buf[i] < 127);
+-- 
+1.8.3.2
+
