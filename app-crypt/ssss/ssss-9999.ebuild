@@ -23,10 +23,16 @@ SLOT="0"
 IUSE=""
 
 RDEPEND="dev-libs/gmp"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-doc/xmltoman"
 
 src_prepare() {
 	if [ ${PV} != 9999 ]; then
 		epatch "${FILESDIR}/${P}-fixup-makefile.patch"
 	fi
+}
+
+src_install() {
+	dobin ssss-split ssss-combine
+	doman ssss.1
 }
