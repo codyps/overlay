@@ -1,6 +1,6 @@
 * Adding with layman:
 
-  layman -f -a jmesmon -o http://raw.github.com/jmesmon/overlay/master/overlays.xml
+  layman -a jmesmon
 
   layman -f -a toolchain-for-funtoo -o http://raw.github.com/jmesmon/overlay/master/overlays.xml
 
@@ -9,7 +9,7 @@
   cd /etc/portage
   git clone https://github.com/jmesmon/overlay -b patches patches
 
-  # edit /etc/make.conf to add "localpatch" to FEATURES
+  # use foobashrc (more reliable)
   # Or edit /etc/portage/bashrc to call 'epatch_user' at an appropriate time.
   # for example:
 
