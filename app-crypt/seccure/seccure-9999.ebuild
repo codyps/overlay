@@ -26,6 +26,8 @@ RDEPEND="dev-libs/libgcrypt"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-fixup-makefile.patch"
+	if [ ${PV} != 9999 ]; then
+		epatch "${FILESDIR}/${P}-fixup-makefile.patch"
+	fi
 }
 
