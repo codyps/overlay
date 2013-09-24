@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index d93b976..56a4438 100644
+index d93b976..44f93a5 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1,79 +1,43 @@
+@@ -1,79 +1,42 @@
 -CFLAGS = -O2 -Wall # -D NOBEEP
 +CFLAGS ?= -O2 -Wall # -D NOBEEP
  
@@ -98,7 +98,6 @@ index d93b976..56a4438 100644
 -	$(CC) $(CFLAGS) -c aes256ctr.c
 +$(BIN): seccure.o numtheory.o ecc.o serialize.o protocol.o curves.o aes256ctr.o
 +	$(CC) $(CFLAGS) -o $@ -lgcrypt $^
-+	strip $@
  
 +$(BIN_SYM) : $(BIN)
 +	ln -f $< $@
