@@ -12,7 +12,7 @@ if [ ${PV} = 9999 ]; then
 	KEYWORDS=""
 else
 	SRC_URI="http://point-at-infinity.org/${PN}/${P}.tar.gz"
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 DESCRIPTION="implements a selection of asymmetric algorithms based on elliptic curve cryptography (ECC)"
