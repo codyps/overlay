@@ -1,6 +1,40 @@
 # ChangeLog for sys-devel/gcc
 # Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/sys-devel/gcc/ChangeLog,v 1.952 2013/06/04 05:25:51 dirtyepic Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-devel/gcc/ChangeLog,v 1.962 2013/09/27 17:13:17 ago Exp $
+
+  27 Sep 2013; Agostino Sarubbo <ago@gentoo.org> gcc-4.7.3-r1.ebuild:
+  Stable for amd64, wrt bug #467274
+
+*gcc-4.7.3-r1 (24 Sep 2013)
+
+  24 Sep 2013; Ryan Hill <dirtyepic@gentoo.org> +gcc-4.7.3-r1.ebuild:
+  4.7.3 p1.3: Fix -march=native detection of Ivy Bridge processors. Revbump to
+  push out changes.
+
+  31 Aug 2013; Magnus Granberg <zorry@gentoo.org> gcc-4.8.1.ebuild,
+  +files/gcc-spec-env-r1.patch:
+  Bump piepatch and add new version of gcc-spec-env for gcc 4.8.1
+
+  27 Aug 2013; Ryan Hill <dirtyepic@gentoo.org> gcc-4.8.1.ebuild:
+  4.8.1 p1.1: Fixes bug #475350 (add --disable-werror to libatomic and libitm)
+  and bug #475482 (linking errors with -O3 -march=core-avx2).
+
+  26 Aug 2013; Ryan Hill <dirtyepic@gentoo.org> gcc-4.7.3.ebuild:
+  4.7.3 p1.2: Fixes bug #475482 (linking errors with -O3 -march=core-avx2).
+
+  14 Aug 2013; Raúl Porcel <armin76@gentoo.org> gcc-4.6.3.ebuild:
+  alpha stable, again now that i've tested it correctly
+
+  14 Aug 2013; Raúl Porcel <armin76@gentoo.org> gcc-4.6.3.ebuild:
+  Revert to ~alpha
+
+  14 Aug 2013; Raúl Porcel <armin76@gentoo.org> gcc-4.6.3.ebuild:
+  alpha stable wrt #418383
+
+  12 Aug 2013; Ryan Hill <dirtyepic@gentoo.org> gcc-4.7.3.ebuild:
+  4.7.3 p1.1: Fixes bug #463796 (parallel build failure), bug #467418 (missing
+  plugin headers on arm targets), and bug #475350 (implement --disable-werror
+  for libitm).
 
 *gcc-4.8.1 (04 Jun 2013)
 
