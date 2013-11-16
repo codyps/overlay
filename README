@@ -16,3 +16,8 @@
 	post_source_prepare () {
 		epatch_user
 	}
+
+* TODO
+
+ * brscan2 from source
+ * cobbler
