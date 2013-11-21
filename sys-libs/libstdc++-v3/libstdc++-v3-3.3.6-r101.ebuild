@@ -101,7 +101,7 @@ do_filter_flags() {
 	# Bug #442784
 	filter-flags '-W*'
 
-	filter-flags -mno-movebe
+	filter-flags -mno-movbe
 	filter-flags -mno-abm
 	filter-flags -mno-lwp
 	filter-flags -mno-fma
