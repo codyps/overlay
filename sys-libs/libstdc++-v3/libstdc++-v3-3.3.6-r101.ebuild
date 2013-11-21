@@ -101,6 +101,22 @@ do_filter_flags() {
 	# Bug #442784
 	filter-flags '-W*'
 
+	filter-flags -mno-movebe
+	filter-flags -mno-abm
+	filter-flags -mno-lwp
+	filter-flags -mno-fma
+	filter-flags -mno-fma4
+	filter-flags -mno-xop
+	filter-flags -mno-bmi
+	filter-flags -mno-bmi2
+	filter-flags -mno-tbm
+	filter-flags -mno-avx2
+	filter-flags -mno-lzcnt
+	filter-flags -mno-rdrnd
+	filter-flags -mno-f16c
+	filter-flags -mno-fsgsbase
+
+
 	# ...sure, why not?
 	strip-unsupported-flags
 
