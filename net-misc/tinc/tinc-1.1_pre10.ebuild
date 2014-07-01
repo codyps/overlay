@@ -6,7 +6,7 @@ EAPI="4"
 
 [[ ${PV} = *9999* ]] && EXTRA_ECLASS="git-2 autotools" || EXTRA_ECLASS=""
 
-inherit eutils ${EXTRA_ECLASS} 
+inherit eutils ${EXTRA_ECLASS}
 
 MY_P=${P/_/}
 
@@ -50,23 +50,19 @@ src_prepare() {
 }
 
 src_configure() {
-	if use tunemu; then
-		# passing --disable-tunemu causes it to be enabled as well.
-		myconf="--enable-tunemu"
-	fi
-	econf  --enable-jumbograms \
-		$(use_enable lzo)      \
-		$(use_enable zlib)     \
-		$(use_enable raw)	\
-		$(use_enable uml)	\
-		$(use_enable vde)	\
+	econf --enable-jumbograms \
+		$(use_enable lzo)     \
+		$(use_enable zlib)    \
+		$(use_enable uml)     \
+		$(use_enable vde)     \
+		$(use_enable tunemu)  \
 		${myconf}
 }
 
 src_install() {
 	emake DESTDIR="${D}" install
 	dodir /etc/tinc
-	dodoc AUTHORS NEWS README THANKS
+	dodoc AUTHORS NEWS README THANKS ChangeLog doc/sample-config.tar.gz
 	newinitd "${FILESDIR}"/tincd.1 tincd
 	newinitd "${FILESDIR}"/tincd.lo.1 tincd.lo
 	doconfd "${FILESDIR}"/tinc.networks
