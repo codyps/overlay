@@ -16,6 +16,16 @@ IUSE="doc suid"
 DEPEND="sys-fs/fuse"
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	# Fix bootstrap respect for CC & LDFLAGS
+	epatch "${FILESDIR}/0001-tup-allow-overriding-of-CC-and-extra-LDFLAGS-in-boot.patch"
+
+	# Fix Tup respect for similar
+	sed -i Tuprules.tup \
+		-e "s:CC = gcc:CC = $(tc-getCC) ${CFLAGS} ${LDFLAGS}:" \
+		-e "s:ar crs:$(tc-getAR) crs:"
+}
+
 src_compile() {
 	# Needed for fuse mount
 	addwrite /dev/fuse
