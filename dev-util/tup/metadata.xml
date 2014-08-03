@@ -2,4 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer><email>maintainer-wanted@gentoo.org</email></maintainer>
+<use>
+<flag name="system-sqlite">Use the system-wide <pkg>dev-db/sqlite</pkg> installation</flag>
+</use>
 </pkgmetadata>
