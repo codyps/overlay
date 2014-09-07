@@ -16,6 +16,14 @@ LICENSE="GPL-3+ openssl"
 SLOT="0"
 IUSE=""
 
-RDEPEND="dev-libs/openssl"
-DEPEND="
-	${RDEPEND}"
+RDEPEND="dev-libs/openssl dev-vcs/git"
+DEPEND="${RDEPEND}"
+
+src_compile () {
+	emake CXX="$(tc-getCXX)" CFLAGS="$CFLAGS $(pkg-config --cflags libcrypto)" LDFLAGS="$LDFLAGS $(pkg-config --libs libcrypto)"
+}
+
+src_install() {
+	mkdir -p "${D}"/usr/bin
+	emake PREFIX="${D}"/usr install
+}
