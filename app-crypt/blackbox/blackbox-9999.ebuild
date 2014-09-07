@@ -23,6 +23,6 @@ src_compile () {
 }
 
 src_install() {
-	dobin -r bin/
+	dobin bin/*
 	dodoc README.md
 }
