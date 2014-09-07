@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
-inherit eutils git-2
+inherit eutils git-2 bash-completion-r1
 EGIT_REPO_URI="https://github.com/elasticdog/${PN}.git"
 KEYWORDS=""
 
