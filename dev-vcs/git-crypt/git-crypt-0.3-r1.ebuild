@@ -27,7 +27,7 @@ RDEPEND="dev-libs/openssl dev-vcs/git"
 DEPEND="${RDEPEND}"
 
 src_compile () {
-	emake CXX="$(tc-getCXX)" CFLAGS="$CFLAGS $(pkg-config --cflags libcrypto)" LDFLAGS="$LDFLAGS $(pkg-config --libs libcrypto)"
+	emake CXX="$(tc-getCXX)" CXXFLAGS="$CXXFLAGS $(pkg-config --cflags libcrypto)" LDFLAGS="$LDFLAGS $(pkg-config --libs libcrypto)"
 }
 
 src_install() {
