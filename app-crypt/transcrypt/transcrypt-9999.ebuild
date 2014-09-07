@@ -16,7 +16,7 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="zsh-completion bash-completion"
 
-RDEPEND=""
+RDEPEND="dev-libs/openssl"
 DEPEND="${RDEPEND}"
 
 src_install() {
