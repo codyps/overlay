@@ -35,16 +35,10 @@ src_compile() {
 }
 
 src_install() {
-	if use systemd; then
-		USE_SYSTEMD=true
-	else
-		USE_SYSTEMD=false
-	fi
-
 	DESTDIR="${D}" PREFIX="${EPREFIX}/usr" \
 	SYSCONFDIR="${EPREFIX}/etc" \
 	RUNSTATEDIR="${EPREFIX}/var/run" \
-	USE_SYSTEMD="$USE_SYSTEMD" \
+	USE_SYSTEMD="$(usex systemd true false)" \
 	USE_OPENRC=true \
 		./do-install
 }
