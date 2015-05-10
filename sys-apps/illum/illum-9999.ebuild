@@ -17,7 +17,7 @@ fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="openrc -systemd"
+IUSE="-systemd"
 
 CDEPEND="dev-libs/libev
 	dev-libs/libevdev"
@@ -35,10 +35,16 @@ src_compile() {
 }
 
 src_install() {
+	if use systemd; then
+		USE_SYSTEMD=true
+	else
+		USE_SYSTEMD=false
+	fi
+
 	DESTDIR="${D}" PREFIX="${EPREFIX}/usr" \
 	SYSCONFDIR="${EPREFIX}/etc" \
 	RUNSTATEDIR="${EPREFIX}/var/run" \
-	USE_SYSTEMD=$(use systemd true false) \
-	USE_OPENRC=$(use openrc true false) \
+	USE_SYSTEMD="$USE_SYSTEMD" \
+	USE_OPENRC=true \
 		./do-install
 }
