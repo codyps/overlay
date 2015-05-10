@@ -37,6 +37,7 @@ src_compile() {
 src_install() {
 	DESTDIR="${D}" PREFIX="${EPREFIX}/usr" \
 	SYSCONFDIR="${EPREFIX}/etc" \
+	RUNSTATEDIR="${EPREFIX}/var/run" \
 	USE_SYSTEMD=$(use systemd true false) \
 	USE_OPENRC=$(use openrc true false) \
 		./do-install
