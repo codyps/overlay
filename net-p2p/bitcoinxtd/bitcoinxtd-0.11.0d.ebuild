@@ -36,7 +36,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}"
 
-S="${WORKDIR}/${MY_PV}"
+S="${WORKDIR}/bitcoinxt-${MY_PV}"
 
 pkg_setup() {
 	local UG='bitcoinxt'
