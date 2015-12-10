@@ -1,3 +1,19 @@
+From ca7ae976dc79e202a8fc1632b94f07ac2b83d22b Mon Sep 17 00:00:00 2001
+From: Cody P Schafer <dev@codyps.com>
+Date: Wed, 9 Dec 2015 23:47:25 -0500
+Subject: [PATCH] buildsys: allow use of system installed libs
+
+---
+ build-aux/m4/bitcoin_subdir_to_include.m4 |  2 +-
+ configure.ac                              | 81 ++++++++++++++++++++++++++++---
+ qa/pull-tester/rpc-tests.sh               |  2 +-
+ qa/pull-tester/tests-config.sh.in         |  2 +-
+ src/Makefile.am                           | 17 +++++--
+ src/Makefile.test.include                 |  2 +
+ 6 files changed, 94 insertions(+), 12 deletions(-)
+ mode change 100755 => 100644 qa/pull-tester/rpc-tests.sh
+ mode change 100755 => 100644 qa/pull-tester/tests-config.sh.in
+
 diff --git a/build-aux/m4/bitcoin_subdir_to_include.m4 b/build-aux/m4/bitcoin_subdir_to_include.m4
 index 66f106c..5f0a3b1 100644
 --- a/build-aux/m4/bitcoin_subdir_to_include.m4
@@ -12,10 +28,10 @@ index 66f106c..5f0a3b1 100644
      if test "x${newinclpath}" != "x"; then
        eval "$1=\"\$$1\"' -I${newinclpath}'"
 diff --git a/configure.ac b/configure.ac
-index 37fe47e..14e5c34 100644
+index e05fd8b..102f7f8 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -170,6 +170,18 @@ AC_ARG_WITH([utils],
+@@ -172,6 +172,18 @@ AC_ARG_WITH([utils],
    [build_bitcoin_utils=$withval],
    [build_bitcoin_utils=yes])
  
@@ -34,7 +50,7 @@ index 37fe47e..14e5c34 100644
  AC_ARG_WITH([libs],
    [AS_HELP_STRING([--with-libs],
    [build libraries (default=yes)])],
-@@ -488,14 +500,65 @@ if test x$use_reduce_exports = xyes; then
+@@ -494,14 +506,65 @@ if test x$use_reduce_exports = xyes; then
    [AC_MSG_ERROR([Cannot set default symbol visibility. Use --disable-reduce-exports.])])
  fi
  
@@ -101,7 +117,7 @@ index 37fe47e..14e5c34 100644
  if test x$enable_wallet != xno; then
      dnl Check for libdb_cxx only if wallet enabled
      BITCOIN_FIND_BDB48
-@@ -515,7 +578,7 @@ BITCOIN_QT_INIT
+@@ -521,7 +584,7 @@ BITCOIN_QT_INIT
  dnl sets $bitcoin_enable_qt, $bitcoin_enable_qt_test, $bitcoin_enable_qt_dbus
  BITCOIN_QT_CONFIGURE([$use_pkgconfig], [qt4])
  
@@ -110,7 +126,7 @@ index 37fe47e..14e5c34 100644
      use_boost=no
  else
      use_boost=yes
-@@ -701,9 +764,13 @@ AC_MSG_CHECKING([whether to build bitcoind])
+@@ -711,9 +774,13 @@ AC_MSG_CHECKING([whether to build bitcoind])
  AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
  AC_MSG_RESULT($build_bitcoind)
  
@@ -127,7 +143,7 @@ index 37fe47e..14e5c34 100644
  
  AC_MSG_CHECKING([whether to build libraries])
  AM_CONDITIONAL([BUILD_BITCOIN_LIBS], [test x$build_bitcoin_libs = xyes])
-@@ -826,7 +893,7 @@ else
+@@ -836,7 +903,7 @@ else
    AC_MSG_RESULT([no])
  fi
  
@@ -136,7 +152,7 @@ index 37fe47e..14e5c34 100644
    AC_MSG_ERROR([No targets! Please specify at least one of: --with-utils --with-libs --with-daemon --with-gui or --enable-tests])
  fi
  
-@@ -895,8 +962,10 @@ PKGCONFIG_LIBDIR_TEMP="$PKG_CONFIG_LIBDIR"
+@@ -909,8 +976,10 @@ PKGCONFIG_LIBDIR_TEMP="$PKG_CONFIG_LIBDIR"
  unset PKG_CONFIG_LIBDIR
  PKG_CONFIG_LIBDIR="$PKGCONFIG_LIBDIR_TEMP"
  
@@ -148,10 +164,12 @@ index 37fe47e..14e5c34 100644
  AC_OUTPUT
  
 diff --git a/qa/pull-tester/rpc-tests.sh b/qa/pull-tester/rpc-tests.sh
-index 9b31865..5bb187c 100755
+old mode 100755
+new mode 100644
+index 8431db9..d4bb554
 --- a/qa/pull-tester/rpc-tests.sh
 +++ b/qa/pull-tester/rpc-tests.sh
-@@ -57,7 +57,7 @@ testScriptsExt=(
+@@ -62,7 +62,7 @@ testScriptsExt=(
  extArg="-extended"
  passOn=${@#$extArg}
  
@@ -161,7 +179,9 @@ index 9b31865..5bb187c 100755
      do
          if [ -z "$1" ] || [ "${1:0:1}" == "-" ] || [ "$1" == "${testScripts[$i]}" ] || [ "$1.py" == "${testScripts[$i]}" ]
 diff --git a/qa/pull-tester/tests-config.sh.in b/qa/pull-tester/tests-config.sh.in
-index 10f4d33..e0e407d 100755
+old mode 100755
+new mode 100644
+index 10f4d33..e0e407d
 --- a/qa/pull-tester/tests-config.sh.in
 +++ b/qa/pull-tester/tests-config.sh.in
 @@ -8,7 +8,7 @@ EXEEXT="@EXEEXT@"
@@ -174,7 +194,7 @@ index 10f4d33..e0e407d 100755
  
  REAL_BITCOIND="$BUILDDIR/src/bitcoind${EXEEXT}"
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 1c2f770..4d60ddf 100644
+index a7e7a88..9ec94de 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
 @@ -1,4 +1,6 @@
@@ -186,7 +206,7 @@ index 1c2f770..4d60ddf 100644
  
 @@ -20,7 +22,7 @@ endif
  BITCOIN_CONFIG_INCLUDES=-I$(builddir)/config
- BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
+ BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS) $(CURL_CFLAGS)
  
 -BITCOIN_INCLUDES += -I$(srcdir)/secp256k1/include
 +BITCOIN_INCLUDES += $(libsecp256k1_CFLAGS)
@@ -225,10 +245,10 @@ index 1c2f770..4d60ddf 100644
  
  .PHONY: FORCE
 diff --git a/src/Makefile.test.include b/src/Makefile.test.include
-index 0997148..14b4deb 100644
+index 9a9b03e..fe35a15 100644
 --- a/src/Makefile.test.include
 +++ b/src/Makefile.test.include
-@@ -111,10 +111,12 @@ bitcoin_test_check: $(TEST_BINARY) FORCE
+@@ -116,10 +116,12 @@ bitcoin_test_check: $(TEST_BINARY) FORCE
  bitcoin_test_clean : FORCE
  	rm -f $(CLEAN_BITCOIN_TEST) $(test_test_bitcoin_OBJECTS) $(TEST_BINARY)
  
@@ -241,3 +261,6 @@ index 0997148..14b4deb 100644
  
  %.json.h: %.json
  	@$(MKDIR_P) $(@D)
+-- 
+2.4.10
+
