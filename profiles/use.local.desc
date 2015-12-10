@@ -1,1 +1,6 @@
 dev-util/tup:system-sqlite - Use the system-wide dev-db/sqlite installation
+
+net-p2p/bitcoinxtd:doc - Include documentatio
+net-p2p/bitcoinxtd:logrotate - Use app-admin/logrotate for rotating logs
+net-p2p/bitcoinxtd:upnp - Enable Universal Plug and Play
+net-p2p/bitcoinxtd:wallet - Enable wallet support
