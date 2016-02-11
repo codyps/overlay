@@ -10,7 +10,7 @@ inherit db-use autotools eutils toolchain-funcs user systemd
 
 DESCRIPTION="BitcoinXT crypto-currency wallet for automated services"
 HOMEPAGE="https://github/bitcoinxt/bitcoinxt"
-My_PV="${PV/\.0d/}D"
+My_PV="${PV/\.0e/}E"
 SRC_URI="https://github.com/bitcoinxt/bitcoinxt/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
