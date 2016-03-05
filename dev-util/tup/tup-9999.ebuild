@@ -36,7 +36,7 @@ src_compile() {
 	# fuse when tracking dependencies.
 	addwrite /dev/fuse
 
-	TUP_NO_NAMESPACE=1 ./bootstrap.sh
+	TUP_NO_NAMESPACING=1 ./bootstrap.sh
 }
 
 src_install() {
