@@ -35,6 +35,11 @@ src_compile() {
 	# script, then runs tup to rebuild it using itself. tup uses
 	# fuse when tracking dependencies.
 	addwrite /dev/fuse
+
+	# newer tup uses /proc/*/setgroups to namespace itself. Ideally we'd
+	# restrict this so it can only affect it's child processes, but it isn't
+	# clear how to do that with emerge's sandbox.
+	addwrite /proc
 	./bootstrap.sh
 }
 
