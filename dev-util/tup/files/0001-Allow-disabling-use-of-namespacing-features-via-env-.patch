@@ -1,0 +1,33 @@
+From 52bff093c35e258c0a0a59307b2c8479d70536a6 Mon Sep 17 00:00:00 2001
+From: Cody P Schafer <dev@codyps.com>
+Date: Sat, 5 Mar 2016 16:31:40 -0500
+Subject: [PATCH] Allow disabling use of namespacing features via env variable
+ TUP_NO_NAMESPACE
+
+For running tup inside of certain sandboxes (like gentoo's emerge
+sandbox), we need to avoid trying to access /proc/*/setgroups. Allow
+users that require this to export the environment variable
+TUP_NO_NAMESPACE=1 to disable namespacing.
+---
+ src/tup/server/master_fork.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/tup/server/master_fork.c b/src/tup/server/master_fork.c
+index cb16a8f..447d1aa 100644
+--- a/src/tup/server/master_fork.c
++++ b/src/tup/server/master_fork.c
+@@ -152,7 +152,10 @@ int server_pre_init(void)
+ 	}
+ 	if(master_fork_pid == 0) {
+ #ifdef __linux__
+-		if(!tup_privileged()) {
++		if(getenv("TUP_NO_NAMESPACING")) {
++			use_namespacing = 0;
++		}
++		if(!tup_privileged() && use_namespacing) {
+ 			uid_t origuid = getuid();
+ 			uid_t origgid = getgid();
+ 			pid_t pid = getpid();
+-- 
+2.4.10
+

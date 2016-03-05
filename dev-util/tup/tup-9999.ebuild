@@ -17,8 +17,8 @@ DEPEND="sys-fs/fuse"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	# Fix bootstrap respect for CC & LDFLAGS
 	epatch "${FILESDIR}/0001-tup-allow-overriding-of-CC-and-extra-LDFLAGS-in-boot.patch"
+	epatch "${FILESDIR}/0001-Allow-disabling-use-of-namespacing-features-via-env-.patch"
 
 	# Fix Tup respect for similar
 	sed -i Tuprules.tup \
@@ -36,11 +36,7 @@ src_compile() {
 	# fuse when tracking dependencies.
 	addwrite /dev/fuse
 
-	# newer tup uses /proc/*/setgroups to namespace itself. Ideally we'd
-	# restrict this so it can only affect it's child processes, but it isn't
-	# clear how to do that with emerge's sandbox.
-	addwrite /proc
-	./bootstrap.sh
+	TUP_NO_NAMESPACE=1 ./bootstrap.sh
 }
 
 src_install() {
