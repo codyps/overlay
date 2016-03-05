@@ -21,7 +21,10 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE=""
 
-RDEPEND="sys-devel/binutils dev-libs/elfutils"
+RDEPEND="sys-devel/binutils \
+	dev-libs/elfutils \
+	sys-libs/zlib \
+	net-misc/curl"
 DEPEND="${RDEPEND}"
 
 DOCS=( README.md )

@@ -12,6 +12,7 @@ DESCRIPTION="BitcoinXT crypto-currency wallet for automated services"
 HOMEPAGE="https://github/bitcoinxt/bitcoinxt"
 My_PV="${PV/\.0e/}E"
 SRC_URI="https://github.com/bitcoinxt/bitcoinxt/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
+#        https://github.com/bitcoinxt/bitcoinxt/archive/v0.11E.tar.gz
 
 LICENSE="MIT"
 SLOT="0"
