@@ -10,7 +10,7 @@ EGIT_REPO_URI="https://github.com/gittup/tup.git"
 if [ "${PV}" -eq 9999 ]; then
 	KEYWORDS=""
 else
-	EGIT_COMMIT="${PV}"
+	EGIT_COMMIT="v${PV}"
 	KEYWORDS="~amd64 ~x86"
 fi
 
