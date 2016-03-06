@@ -2,11 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 EAPI=5
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="Tup is file oriented, directed acyclic graph based build system"
 HOMEPAGE="http://gittup.org/tup/index.html"
 EGIT_REPO_URI="https://github.com/gittup/tup.git"
+if [ "${PV}" -ne 9999 ]; then
+	EGIT_COMMIT="${PV}"
+fi
 
 LICENSE="GPL-2"
 SLOT="0"
