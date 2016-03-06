@@ -7,11 +7,11 @@ inherit eutils git-r3
 DESCRIPTION="Tup is file oriented, directed acyclic graph based build system"
 HOMEPAGE="http://gittup.org/tup/index.html"
 EGIT_REPO_URI="https://github.com/gittup/tup.git"
-if [ "${PV}" -ne 9999 ]; then
+if [ "${PV}" -eq 9999 ]; then
+	KEYWORDS=""
+else
 	EGIT_COMMIT="${PV}"
 	KEYWORDS="~amd64 ~x86"
-else
-	KEYWORDS=""
 fi
 
 LICENSE="GPL-2"
