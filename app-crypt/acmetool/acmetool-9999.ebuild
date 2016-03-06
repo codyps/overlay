@@ -2,11 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 EAPI=5
-inherit eutils git-r3
+inherit eutils
 
 DESCRIPTION="command line tool for automatically acquiring certificates from ACME servers"
 HOMEPAGE="https://github.com/hlandau/acme"
 if [ "${PV}" = 9999 ]; then
+	inherit git-r3
 	EGIT_REPO_URI="https://github.com/hlandau/acme.git"
 	KEYWORDS=""
 else
