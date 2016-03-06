@@ -10,7 +10,7 @@ if [ "${PV}" -eq 9999 ]; then
 	inherit git-2
 	EGIT_REPO_URI="https://github.com/SimonKagstrom/kcov.git"
 else
-	SRC_URI="mirror://github/SimonKagstrom/${PN}/${P}.tar.gz"
+	SRC_URI="https://github.com/SimonKagstrom/kcov/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
 fi
 
