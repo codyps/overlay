@@ -20,10 +20,7 @@ DEPEND="sys-fs/fuse"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch "${FILESDIR}/0001-tup-allow-overriding-of-CC-and-extra-LDFLAGS-in-boot.patch"
-	epatch "${FILESDIR}/0001-Allow-disabling-use-of-namespacing-features-via-env-.patch"
-
-	# Fix Tup respect for similar
+	# Use our toolchain
 	sed -i Tuprules.tup \
 		-e "s:CC = gcc:CC = $(tc-getCC) ${CFLAGS} ${LDFLAGS}:" \
 		-e "s:ar crs:$(tc-getAR) crs:"
