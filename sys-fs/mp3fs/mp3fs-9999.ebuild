@@ -23,8 +23,7 @@ DEPEND="sys-fs/fuse
 	media-libs/libid3tag
 	media-libs/flac
 	media-sound/lame
-	media-libs/libogg
-	dev-libs/libb64"
+	media-libs/libogg"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
@@ -32,4 +31,9 @@ src_prepare() {
 		eautoreconf
 	fi
 	default_src_prepare
+}
+
+src_configure() {
+	# Avoid failure due to undefined "BUFFERSIZE"
+	econf --without-vorbis-picture
 }
