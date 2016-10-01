@@ -12,7 +12,8 @@ if [ "${PV}" = 9999 ]; then
 	KEYWORDS=""
 else
 	SRC_URI="https://github.com/hlandau/acme/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS=""
+	#KEYWORDS="~amd64 ~x86"
 	S="${WORKDIR}/acme-${PV}"
 fi
 
@@ -29,10 +30,11 @@ RDEPEND="${DEPEND}"
 #src_configure () {
 #}
 
-#src_compile() {
-#}
+src_compile() {
+}
 
 src_install() {
-	emake DESTDIR="${D}" install
+	dobin
+
 	use doc && dodoc -r _doc
 }
