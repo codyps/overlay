@@ -31,6 +31,7 @@ RDEPEND="${DEPEND}"
 #}
 
 src_compile() {
+	:
 }
 
 src_install() {
