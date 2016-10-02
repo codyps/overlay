@@ -30,6 +30,15 @@ else
 		"github.com/tylerb/graceful:48afeb2 -> gopkg.in/tylerb/graceful.v1" #v1.2.3
 		"github.com/hlandau/svcutils:c25dac49e50cbbcbef8c81b089f56156f4067 -> gopkg.in/hlandau/svcutils.v1"
 		"github.com/hlandau/service:601cce2a79c1e61856e27f43c28ed4d7d2c7a619 -> gopkg.in/hlandau/service.v2" #v2.0.15
+		"github.com/godbus/dbus:9998ce8520caaa4a287fa5122ecb5d1ca1aeaede"
+		"github.com/hlandau/buildinfo:b25d4b0e518fdb8bcbefaa3d52d77473bebe08fd"
+		"github.com/hlandauf/gspt:25f3bd3f5948489aa5f31c949310ae9f2b0e956c"
+		"github.com/mattn/go-isatty:66b8e73f3f5cda9f96b69efd03dd3d7fc4a5cdb8"
+		"github.com/shiena/ansicolor:a422bbe96644373c5753384a59d678f7d261ff10"
+		"github.com/alecthomas/kingpin:8852570 -> gopkg.in/alecthomas/kingpin.v2" #v2.1.18
+		"github.com/cheggaaa/pb:ad4efe000aa550bb54918c06ebbadc0ff17687b9 -> gopkg.in/cheggaaa/pb.v1"
+		"github.com/hlandau/easyconfig:bc5afaa18a1a72fe424da647d6bb57ca4d7f83c4 -> gopkg.in/hlandau/easyconfig.v1"
+		"github.com/square/go-jose:e18a7432cde1d90f722109d29224965a1eec5c79 -> gopkg.in/square/go-jose.v1" #v1.1.0
 	)
 	inherit golang-single
 	KEYWORDS="~amd64 ~x86"
