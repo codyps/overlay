@@ -7,6 +7,7 @@ GOLANG_PKG_IMPORTPATH="github.com/hlandau"
 GOLANG_PKG_BUILDPATH="/cmd/acmetool"
 GOLANG_PKG_ARCHIVEPREFIX="v"
 GOLANG_PKG_NAME="acme"
+#GOLANG_PKG_IS_MULTIPLE="1"
 #GOLANG_PKG_USE_CGO=1
 
 DESCRIPTION="command line tool for automatically acquiring certificates from ACME servers"
@@ -39,6 +40,10 @@ else
 		"github.com/cheggaaa/pb:ad4efe000aa550bb54918c06ebbadc0ff17687b9 -> gopkg.in/cheggaaa/pb.v1"
 		"github.com/hlandau/easyconfig:bc5afaa18a1a72fe424da647d6bb57ca4d7f83c4 -> gopkg.in/hlandau/easyconfig.v1"
 		"github.com/square/go-jose:e18a7432cde1d90f722109d29224965a1eec5c79 -> gopkg.in/square/go-jose.v1" #v1.1.0
+		"github.com/alecthomas/template:a0175ee3bccc567396460bf5acd36800cb10c49c"
+		"github.com/alecthomas/units:2efee857e7cfd4f3d0138cc3cbb1b4966962b93a"
+		"github.com/ogier/pflag:45c278ab3607870051a2ea9040bb85fcb8557481"
+		"github.com/hlandau/configurable:34642c4c8cbf56801d0e34f0e82187305983ac26 -> gopkg.in/hlandau/configurable.v1"
 	)
 	inherit golang-single
 	KEYWORDS="~amd64 ~x86"
