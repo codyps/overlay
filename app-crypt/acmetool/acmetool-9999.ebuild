@@ -6,6 +6,7 @@ EAPI=6
 GOLANG_PKG_IMPORTPATH="github.com/hlandau"
 GOLANG_PKG_BUILDPATH="/cmd/acmetool"
 GOLANG_PKG_ARCHIVEPREFIX="v"
+GOLANG_PKG_NAME="acme"
 
 DESCRIPTION="command line tool for automatically acquiring certificates from ACME servers"
 HOMEPAGE="https://github.com/hlandau/acme"
