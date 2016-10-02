@@ -21,5 +21,5 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="doc"
 
-DEPEND="dev-lang/go libcap"
+DEPEND="dev-lang/go sys-libs/libcap"
 RDEPEND="${DEPEND}"
