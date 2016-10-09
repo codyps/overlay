@@ -8,6 +8,8 @@ GOLANG_PKG_BUILDPATH="/cmd/acmetool"
 GOLANG_PKG_ARCHIVEPREFIX="v"
 GOLANG_PKG_NAME="acme"
 #GOLANG_PKG_IS_MULTIPLE="1"
+# Without this, dropping privs is non-functional, which (generally) breaks
+# redirector
 #GOLANG_PKG_USE_CGO=1
 
 DESCRIPTION="command line tool for automatically acquiring certificates from ACME servers"
