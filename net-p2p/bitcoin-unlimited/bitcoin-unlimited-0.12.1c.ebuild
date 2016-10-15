@@ -25,7 +25,7 @@ RDEPENDS="\
 "
 DEPENDS="${RDEPENDS}"
 
-REQUIRED_USE="logrotate? (daemon) qrcode?(||(qt4 qt5))"
+REQUIRED_USE="logrotate? ( daemon ) qrcode? ( || ( qt4 qt5 ) )"
 
 SRC_URI="https://github.com/BitcoinUnlimited/BitcoinUnlimited/archive/bu${PV}.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/BitcoinUnlimited-bu${PV}"
