@@ -11,7 +11,7 @@ HOMEPAGE="https://www.bitcoinunlimited.info/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-PN_BASE="${PN}"
+PN_BASE="bitcoin"
 
 IUSE="qt4 qt5 upnp +daemon +wallet qrcode +utils +zeromq static-libs examples logrotate"
 RDEPENDS="\
