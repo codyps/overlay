@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>gentoo@codyps.com</email>
+	</maintainer>
+	<use>
+		<flag name="utils">Enable bitcoin cmdline utilities</flag>
+		<flag name="qrcode">Use media-gfx/qrencode to allow generation of qrcodes</flag>
+		<flag name="daemon">Enable bitcoind daemon</flag>
+		<flag name="logrotate">Use app-admin/logrotate for rotating logs</flag>
+		<flag name="upnp">Enable Universal Plug and Play</flag>
+		<flag name="wallet">Enable wallet support</flag>
+		<flag name="zeromq">Report blocks and transactions via zeromq</flag>
+	</use>
+	<upstream>
+		<remote-id type="github">BitcoinUnlimited/BitcoinUnlimited</remote-id>
+	</upstream>
+</pkgmetadata>
