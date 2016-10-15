@@ -14,18 +14,19 @@ KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
 PN_BASE="bitcoin"
 
 IUSE="qt4 qt5 upnp +daemon +wallet qrcode +utils +zeromq static-libs examples logrotate"
-BDEPEND="||(
-	qt5 ? (dev-qt/linguist-tools)
-	qt4 ? (>=dev-qt/qt-meta-4)
+BDEPEND="|| (\
+	qt5? ( dev-qt/linguist-tools ) \
+	qt4? ( >=dev-qt/qt-meta-4 ) \
+)
 "
 IDEPEND="\
-	upnp? (net-libs/miniupnpc) \
-	qrcode? (media-gfx/qrencode) \
+	upnp? ( net-libs/miniupnpc ) \
+	qrcode? ( media-gfx/qrencode ) \
 	|| ( \
-		qt5 ? (dev-qt/qtgui:5) \
-		qt4 ? (dev-qt/qtgui:4) \
+		qt5? ( dev-qt/qtgui:5 ) \
+		qt4? ( dev-qt/qtgui:4 ) \
 	) \
-	wallet? (sys-libs/db:4.8[cxx]) \
+	wallet? ( sys-libs/db:4.8[cxx] ) \
 "
 DEPEND="${BDEPEND} ${IDEPEND}"
 RDEPEND="${IDEPEND}"
