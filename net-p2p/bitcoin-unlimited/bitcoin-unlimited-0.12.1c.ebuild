@@ -81,8 +81,7 @@ src_install() {
 
 	newconfd "contrib/init/bitcoind.openrcconf" ${PN}
 	newinitd "contrib/init/bitcoind.openrc" ${PN}
-	cp "${FILESDIR}/bitcoind.service" "${WORKDIR}/${PN}.service"
-	systemd_dounit "${WORKDIR}/${PN}.service"
+	systemd_newunit "${FILESDIR}/bitcoind.service" "${WORKDIR}/${PN}.service"
 
 	keepdir /var/lib/bitcoin/.bitcoin
 	fperms 700 /var/lib/bitcoin
