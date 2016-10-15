@@ -18,8 +18,8 @@ RDEPENDS="\
 	upnp? (net-libs/miniupnpc) \
 	qrcode? (media-gfx/qrencode) \
 	|| ( \
-		qt5 ? (dev-qt/qtgui:5) \
-		qt4 ? (dev-qt/qtgui:4) \
+		qt5 ? (dev-qt/qtgui:5 dev-qt/linguist-tools) \
+		qt4 ? (dev-qt/qtgui:4 >dev-qt/qt-meta-4) \
 	) \
 	wallet? (sys-libs/db:4.8[cxx]) \
 "
