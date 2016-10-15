@@ -25,6 +25,8 @@ RDEPENDS="\
 "
 DEPENDS="${RDEPENDS}"
 
+REQUIRED_USE="logrotate? (daemon) qrcode?(||(qt4 qt5))"
+
 SRC_URI="https://github.com/BitcoinUnlimited/BitcoinUnlimited/archive/bu${PV}.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/BitcoinUnlimited-bu${PV}"
 
@@ -95,6 +97,8 @@ src_install() {
 		use zeromq && dodoc -r contrib/zmq
 	fi
 
-	insinto /etc/logrotate.d
-	newins "${FILESDIR}/${PN}.logrotate-r1" ${PN}
+	if use logrotate; then
+		insinto /etc/logrotate.d
+		newins "${FILESDIR}/bitcoind.logrotate-r1" ${PN}
+	fi
 }
