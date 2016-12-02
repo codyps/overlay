@@ -10,7 +10,7 @@ HOMEPAGE="http://www.pjrc.com/teensy/loader_cli.html"
 inherit git-r3
 EGIT_REPO_URI="https://github.com/PaulStoffregen/teensy_loader_cli.git"
 if [ "${PV}" != 9999 ]; then
-	EGIT_COMMIT="5f183c12915070b71d70e92868dc04ef7e76f21e"
+	EGIT_COMMIT="97c4ce06eea5170e1c828302e24d23142cbd9a0c"
 	KEYWORDS="~amd64 ~x86"
 fi
 
