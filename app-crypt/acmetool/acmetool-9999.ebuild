@@ -14,11 +14,10 @@ GOLANG_PKG_NAME="acme"
 
 DESCRIPTION="command line tool for automatically acquiring certificates from ACME servers"
 HOMEPAGE="https://github.com/hlandau/acme"
-if [ "${PV}" = 9999 ]; then
-	KEYWORDS=""
+if [[ "${PV}" = 9999 ]]; then
 	inherit golang-live
+	KEYWORDS=""
 else
-	KEYWORDS="~amd64 ~x86"
 	GOLANG_PKG_DEPENDENCIES=(
 		"github.com/coreos/go-systemd:b4a58d9" # v4
 		"github.com/hlandau/xlog:197ef798aed28e08ed3e176e678fda81be993a31"
@@ -49,6 +48,7 @@ else
 		"github.com/hlandau/configurable:34642c4c8cbf56801d0e34f0e82187305983ac26 -> gopkg.in/hlandau/configurable.v1"
 	)
 	inherit golang-single
+	KEYWORDS="~amd64 ~x86"
 fi
 
 LICENSE="MIT"

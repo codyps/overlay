@@ -8,8 +8,7 @@ inherit eutils git-2 bash-completion-r1
 EGIT_REPO_URI="https://github.com/elasticdog/${PN}.git"
 KEYWORDS=""
 
-DESCRIPTION="A script to configure transparent encryption of sensitive files stored in
-a Git repository"
+DESCRIPTION="transparent encryption of sensitive files stored in a Git repository"
 HOMEPAGE="https://github.com/elasticdog/transcrypt.git"
 
 LICENSE="MIT"

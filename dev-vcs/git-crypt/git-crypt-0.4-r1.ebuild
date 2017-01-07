@@ -15,8 +15,7 @@ else
 	KEYWORDS="~amd64 ~x86"
 fi
 
-DESCRIPTION="git-crypt enables transparent encryption and decryption of files in a
-git repository"
+DESCRIPTION="transparent encryption and decryption of files in a git repository"
 HOMEPAGE="https://www.agwa.name/git/git-crypt.git"
 
 LICENSE="GPL-3+ openssl"
