@@ -1,9 +1,8 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-backup/rsnapshot/rsnapshot-1.3.1-r1.ebuild,v 1.3 2011/05/28 15:30:40 mr_bones_ Exp $
+# $Header: $
 
 EAPI=4
-
 
 EGIT_REPO_URI="git://git.github.com/jmesmon/rsnapshot.git"
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -23,7 +23,7 @@ LICENSE="GPL-3+ openssl"
 SLOT="0"
 IUSE=""
 
-RDEPEND="dev-libs/openssl dev-vcs/git"
+RDEPEND="dev-libs/openssl:0 dev-vcs/git"
 DEPEND="${RDEPEND}"
 
 src_compile () {

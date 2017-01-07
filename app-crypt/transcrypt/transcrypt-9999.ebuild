@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -16,7 +16,7 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="zsh-completion bash-completion"
 
-RDEPEND="dev-libs/openssl"
+RDEPEND="dev-libs/openssl:0"
 DEPEND="${RDEPEND}"
 
 src_install() {
