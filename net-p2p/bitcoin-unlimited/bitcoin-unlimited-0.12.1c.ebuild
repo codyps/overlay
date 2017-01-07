@@ -36,6 +36,9 @@ REQUIRED_USE="logrotate? ( daemon ) qrcode? ( || ( qt4 qt5 ) )"
 SRC_URI="https://github.com/BitcoinUnlimited/BitcoinUnlimited/archive/bu${PV}.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/BitcoinUnlimited-bu${PV}"
 
+# Otherwise, qt5 headers complain that that "Qt requires C++11 support"
+CXXFLAGS="${CXXFLAGS} -std=gnu++11"
+
 pkg_setup() {
 	local UG='bitcoin'
 	enewgroup "${UG}"
@@ -81,7 +84,7 @@ src_install() {
 
 	newconfd "contrib/init/bitcoind.openrcconf" ${PN}
 	newinitd "contrib/init/bitcoind.openrc" ${PN}
-	systemd_newunit "${FILESDIR}/bitcoind.service" "${WORKDIR}/${PN}.service"
+	systemd_newunit "${FILESDIR}/bitcoind.service" "${PN}.service"
 
 	keepdir /var/lib/bitcoin/.bitcoin
 	fperms 700 /var/lib/bitcoin
