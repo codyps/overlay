@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -14,8 +14,7 @@ else
 	KEYWORDS="~x86 ~amd64"
 fi
 
-DESCRIPTION="A script to configure transparent encryption of sensitive files stored in
-a Git repository"
+DESCRIPTION="configure transparent encryption of sensitive files stored in a Git repository"
 HOMEPAGE="https://github.com/elasticdog/transcrypt.git"
 
 LICENSE="MIT"

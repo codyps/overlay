@@ -15,7 +15,7 @@ else
 	KEYWORDS="~amd64 ~x86"
 fi
 
-DESCRIPTION="ssss is an implementation of Shamir's secret sharing scheme for UNIX/linux machines"
+DESCRIPTION="an implementation of Shamir's secret sharing scheme"
 HOMEPAGE="http://point-at-infinity.org/ssss/"
 
 LICENSE="GPL-2"

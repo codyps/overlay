@@ -16,7 +16,7 @@ else
 fi
 
 DESCRIPTION="minimize and compress /proc/vmcore for use with crash"
-HOMEPAGE="https://http://sourceforge.net/projects/makedumpfile/"
+HOMEPAGE="http://sourceforge.net/projects/makedumpfile/"
 
 LICENSE="GPL-2+"
 SLOT="0"

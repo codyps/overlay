@@ -18,7 +18,6 @@ else
 	KEYWORDS="amd64 x86"
 fi
 
-
 DEPEND="sys-fs/fuse
 	media-libs/libid3tag
 	media-libs/flac

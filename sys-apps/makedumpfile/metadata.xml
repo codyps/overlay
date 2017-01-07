@@ -2,4 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person"><email>gentoo@codyps.com</email></maintainer>
+	<use>
+		<flag name="snappy">use the snappy compression format from <pkg>app-arch/snappy</pkg></flag>
+	</use>
 </pkgmetadata>

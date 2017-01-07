@@ -15,7 +15,7 @@ else
 	KEYWORDS="~amd64 ~x86"
 fi
 
-DESCRIPTION="implements a selection of asymmetric algorithms based on elliptic curve cryptography (ECC)"
+DESCRIPTION="asymmetric algorithms based on elliptic curve cryptography (ECC)"
 HOMEPAGE="http://point-at-infinity.org/seccure/"
 
 LICENSE="GPL-2"
