@@ -31,7 +31,7 @@ src_prepare() {
 	if [[ ${PV} != 9999 ]]; then
 		# Avoid invoking `git` to find version, use ours
 		sed -i Tupfile \
-			-e 's;`git describe`;'"${PV};"
+			-e 's;`git describe`;v'"${PV};"
 	fi
 }
 
