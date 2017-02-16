@@ -1,19 +1,22 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 EAPI=5
-inherit eutils git-r3
+inherit eutils
 
 DESCRIPTION="Tup is file oriented, directed acyclic graph based build system"
 HOMEPAGE="http://gittup.org/tup/index.html"
-EGIT_REPO_URI="https://github.com/gittup/tup.git"
-if [ "${PV}" -ne 9999 ]; then
-	EGIT_COMMIT="${PV}"
+if [[ "${PV}" = 9999 ]]; then
+	EGIT_REPO_URI="https://github.com/gittup/tup.git"
+	inherit git-r3
+	KEYWORDS=""
+else
+	SRC_URI="https://github.com/gittup/tup/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc suid system-sqlite"
 
 DEPEND="sys-fs/fuse"
@@ -24,6 +27,12 @@ src_prepare() {
 	sed -i Tuprules.tup \
 		-e "s:CC = gcc:CC = $(tc-getCC) ${CFLAGS} ${LDFLAGS}:" \
 		-e "s:ar crs:$(tc-getAR) crs:"
+
+	if [[ ${PV} != 9999 ]]; then
+		# Avoid invoking `git` to find version, use ours
+		sed -i Tupfile \
+			-e 's;`git describe`;'"${PV};"
+	fi
 }
 
 src_configure () {

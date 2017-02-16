@@ -10,10 +10,9 @@ if [[ "${PV}" = 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/gittup/tup.git"
 	inherit git-r3
 	KEYWORDS=""
-	EGIT_COMMIT="${PV}"
 else
-	KEYWORDS="~amd64 ~x86"
 	SRC_URI="https://github.com/gittup/tup/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 LICENSE="GPL-2"
