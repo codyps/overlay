@@ -40,17 +40,13 @@ src_configure () {
 }
 
 src_compile() {
-	# bootstrap.sh does an initial build of tup using a manual
-	# script, then runs tup to rebuild it using itself. tup uses
-	# fuse when tracking dependencies.
-	addwrite /dev/fuse
-
-	TUP_NO_NAMESPACING=1 ./bootstrap.sh
+	TUP_NO_NAMESPACING=1 ./bootstrap-nofuse.sh
 }
 
 src_install() {
 	dobin tup
-	dolib.a libtup.a libtup_client.a
+	dolib.a libtup_client.a
+	doheader tup_client.h
 	doman tup.1
 
 	use doc && dohtml -r docs
