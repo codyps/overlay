@@ -40,7 +40,7 @@ src_configure () {
 }
 
 src_compile() {
-	TUP_NO_NAMESPACING=1 ./bootstrap-nofuse.sh
+	./bootstrap-nofuse.sh
 }
 
 src_install() {
