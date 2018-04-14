@@ -28,5 +28,5 @@ src_unpack() {
 }
 
 src_install() {
-	cp -r usr "${D}" || die
+	cp -r opt "${D}" || die
 }

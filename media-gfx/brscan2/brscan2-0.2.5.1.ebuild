@@ -40,9 +40,8 @@ src_install() {
 pkg_postinst() {
 	"${ROOT}/usr/local/Brother/sane/setupSaneScan2" -i
 	echo
-	einfo "In order to use scanner you need to add it first with setupSaneScan2."
+	einfo "In order to use scanner you need to add it first with brsanconfig2."
 	einfo "Example with DCP-j315w over network:"
 	einfo "	/usr/local/Brother/sane/brsaneconfig2 -a name=Scanner_Home_DCP-j315w model=DCP-J315W ip=192.168.0.24"
-	einfo "	chmod 644 /usr/local/Brother/sane/brsanenetdevice3.cfg"
-
+	einfo "	chmod 644 /usr/local/Brother/sane/brsanenetdevice2.cfg"
 }
