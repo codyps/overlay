@@ -1,10 +1,10 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI=7
 
-inherit eutils git-2
+inherit eutils git-r3
 EGIT_REPO_URI="https://github.com/StackExchange/${PN}.git"
 KEYWORDS=""
 
